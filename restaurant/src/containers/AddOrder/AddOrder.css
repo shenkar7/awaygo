@@ -1,0 +1,62 @@
+:root{
+    --maring-between: 10px;
+}
+
+.add-order-window  {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.add-order-window h2, .add-order-window h3 {
+    color: #3a96e1;
+    margin-bottom: 5px;
+    margin-top: 7px;
+}
+
+.costumer-details {
+    background-color: white;
+    padding: 30px;
+    margin-left: 10px;
+}
+
+.costumer-details input {
+    background-color: #f1f8fe;
+    border: 1px solid #bdcdd8;
+    margin: 5px 0 5px 5px;
+    padding: 10px;
+    text-align: right;
+}
+
+.costumer-details input::placeholder {
+    text-align: right;
+    color: #3a96e1;
+}
+
+.costumer-details .remark input{
+    width: 80%;
+}
+
+.menu {
+    background-color: #f2f2f2;
+}
+
+.make-order {
+    background-color: orange;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    margin-top: var(--maring-between);
+
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+}
+
+.make-order h1 {
+    margin: 0;
+}
+
+.make-order:hover {
+    background-color: rgb(211, 137, 0);
+}

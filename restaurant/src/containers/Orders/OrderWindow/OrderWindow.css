@@ -1,0 +1,50 @@
+.order-window {
+    background-color: #eeeeee;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #626262;
+    cursor: pointer;
+}
+
+.order-window .order-number {
+    color: rgb(51, 51, 51);
+    text-align: left;
+    font-size: 25px;
+}
+
+.order-window .order-details {
+    background-color: white;
+    border: 1px solid #00b3e3;
+    padding: 13px;
+}
+
+.order-window .name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.order-window .address {
+    font-size: 13px;
+}
+
+.order-window .food-section, .order-window .remark-section {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.order-window .food-section .fa-hamburger,
+.order-window .remark-section .fa-exclamation-triangle {
+    color: black;
+    font-size: 18px;
+    margin-left: 12px;
+}
+
+.order-window .food {
+    font-size: 10px;
+}
+
+.order-window .remark {
+    font-size: 10px;
+    font-weight: bold;
+}

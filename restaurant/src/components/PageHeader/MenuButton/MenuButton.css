@@ -1,0 +1,15 @@
+.button {
+    cursor: pointer;
+    margin-right: 25px;
+}
+
+.line {
+    width: 25px;
+    height: 3px;
+    background-color: #666;
+    margin: 5px 0;
+}
+
+.button:hover .line {
+    background-color: #444;
+}
