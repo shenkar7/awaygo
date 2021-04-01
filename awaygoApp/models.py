@@ -76,7 +76,7 @@ class Order(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=9,
-        choices=[('process', 'In Process'), ('sent', 'Sent'), ('delivered', 'Delivered')],
+        choices=[('new', 'New'), ('process', 'In Process'), ('ready', 'Ready'), ('sent', 'Sent'), ('delivered', 'Delivered')],
         default='process'
     )
     # remove null

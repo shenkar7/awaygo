@@ -18,7 +18,8 @@ const Orders = props => {
 
     const [orders, setOrders] = useState(null);
     const [dishes, setDishes] = useState(null);
-    // const [customers, setCustomers] = useState(null);
+    const [customers, setCustomers] = useState(null);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [addOrderWindow, setAddOrderWindow] = useState(false);
@@ -26,16 +27,16 @@ const Orders = props => {
 
     useEffect(() => {
 
-        // const getCustomers = axios.get("http://127.0.0.1:8000/customers")
+        const getCustomers = axios.get("http://127.0.0.1:8000/customers")
         const getDishes = axios.get("http://127.0.0.1:8000/dishes")
         const getOrders = axios.get("http://127.0.0.1:8000/orders")
 
 
-        axios.all([/*getCustomers, */getDishes, getOrders])
+        axios.all([getCustomers, getDishes, getOrders])
             .then((responses) => {
-                // setCustomers(responses[0].data);
-                setDishes(responses[0].data);
-                setOrders(responses[1].data);
+                setCustomers(responses[0].data);
+                setDishes(responses[1].data);
+                setOrders(responses[2].data);
             })
             .catch((errors) => {
                 setError(errors);
@@ -63,10 +64,6 @@ const Orders = props => {
         content =  errorMessage;
     }
     else {
-        // console.log(customers);
-        // console.log(dishes);
-        
-
         // creating order windows for map()
         const orderWindowCreator = (order) => {
             return (
@@ -81,10 +78,10 @@ const Orders = props => {
         const ordersProcess = orders.filter(order => order.status === "process")
                     .map(orderWindowCreator);
 
-        const ordersSent = orders.filter(order => order.status === "sent")
+        const ordersReady = orders.filter(order => order.status === "ready")
                     .map(orderWindowCreator);
 
-        const ordersDelivered = orders.filter(order => order.status === "delivered")
+        const ordersSent = orders.filter(order => order.status === "sent")
                     .map(order => (
                         <OrderSmallWindow
                             key={order.id}
@@ -92,8 +89,10 @@ const Orders = props => {
                             click={() => setViewOrderWindow(order)}
                         />
                     ));
+
+        //  delivered orders for history
         
-        const addOrder = <AddOrder/>
+        const addOrder = <AddOrder customers={customers}/>
 
         const viewOrder = <ViewOrder order={viewOrderWindow}/>
 
@@ -108,9 +107,9 @@ const Orders = props => {
                     <SearchDisplay addOrderHandler={() => setAddOrderWindow(true)}/>
                     <div className="all-orders-window">
                         <div className="columns-titles">
-                            <h3>בוצעו</h3>
+                            <h3>נאסף</h3>
                             <div className="title-seperator"></div>
-                            <h3>נשלחו</h3>
+                            <h3>מוכן לאיסוף</h3>
                             <div className="title-seperator"></div>
                             <h3>בטיפול</h3>
                         </div>
@@ -120,11 +119,11 @@ const Orders = props => {
                             </div>
                             <div className="column-seperation"></div>
                             <div className="orders-column">
-                                {ordersSent}
+                                {ordersReady}
                             </div>
                             <div className="column-seperation"></div>
                             <div className="orders-column">
-                                {ordersDelivered}
+                                {ordersSent}
                             </div>
 
                         </div>

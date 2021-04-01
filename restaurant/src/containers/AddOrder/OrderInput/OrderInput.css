@@ -1,0 +1,12 @@
+input {
+    background-color: #f1f8fe;
+    border: 1px solid #bdcdd8;
+    margin: 5px 0 5px 5px;
+    padding: 10px;
+    text-align: right;
+}
+
+input::placeholder {
+    text-align: right;
+    color: #3a96e1;
+}
