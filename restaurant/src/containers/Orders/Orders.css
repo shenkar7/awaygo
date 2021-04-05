@@ -7,6 +7,10 @@ main {
     padding: 30px;
 }
 
+.spinner{
+    font-size: 6px;
+}
+
 .all-orders-window {
     padding: 10px;
     text-align: right;

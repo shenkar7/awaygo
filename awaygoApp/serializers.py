@@ -28,8 +28,8 @@ class DishInOrderSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     address = AddressSerializer(read_only=True)
     customer = CustomerSerializer(read_only=True)
-    dishesinorder = DishInOrderSerializer(source='dishinorder_set', many=True)
+    dishesinorder = DishInOrderSerializer(source='dishinorder_set', many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'date_time', 'status', 'address', 'remark', 'customer', 'dishesinorder']
+        fields = '__all__'

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './AddOrder.css';
 import OrderInput from './OrderInput/OrderInput';
+import TimingOrder from '../../../components/TimingOrder/TimingOrder';
 
 const AddOrder = props => {
 
@@ -21,7 +22,7 @@ const AddOrder = props => {
     phoneSetAUtoFill = (phoneValue) => {
         setPhone(phoneValue);
         props.customers.forEach(customer => {
-            if(customer.phone_number == phoneValue) {
+            if(customer.phone_number === phoneValue) {
                 if(customer.email)
                     setEmail(customer.email);
                 else
@@ -90,9 +91,7 @@ const AddOrder = props => {
                     <h2>הזמנה</h2>
                 </div>
             </div>
-            <div className="make-order">
-                <h1>הכנס הזמנה</h1>
-            </div>
+            <TimingOrder/>
         </div>
     );
 

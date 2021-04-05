@@ -7,10 +7,6 @@ const Countdown = props => {
 
     const distance = props.countDownDate - now;
 
-    console.log('[props.countDownDate] ' + props.countDownDate);
-    console.log('[now] ' + now);
-    console.log('[distance] ' + distance);
-
     const hours = Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let minutes = Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60));
     if(minutes < 10)

@@ -6,8 +6,9 @@ import OrderSmallWindow from './OrderSmallWindow/OrderSmallWindow';
 import SearchDisplay from './SearchDisplay/SearchDisplay';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Modal from '../../components/Modal/Modal';
-import AddOrder from '../AddOrder/AddOrder';
+import AddOrder from './AddOrder/AddOrder';
 import ViewOrder from './ViewOrder/ViewOrder';
+import NewOrder from './NewOrder/NewOrder';
 import Spinner from '../../components/Spinner/Spinner';
 
 // fake data
@@ -24,6 +25,15 @@ const Orders = props => {
     const [error, setError] = useState(false);
     const [addOrderWindow, setAddOrderWindow] = useState(false);
     const [viewOrderWindow, setViewOrderWindow] = useState(false);
+    const [newOrderWindow, setNewOrderWindow] = useState(false);
+
+    let newOrders = null;
+    if (orders){
+        newOrders = orders.filter(order => order.status === 'new');
+        if (newOrders.length > 0 && !newOrderWindow) {
+            setNewOrderWindow(newOrders[0]);
+        }
+    }
 
     useEffect(() => {
 
@@ -46,6 +56,15 @@ const Orders = props => {
             })
     }, []);
 
+    const orderUpdateHandler = newOrder => {
+        const newOrders = [...orders];
+        for (let i=0; i < newOrders.length; i++){
+            if(newOrders[i].id === newOrder.id)
+                newOrders[i] = newOrder;
+        }
+        setOrders(newOrders);
+    }
+
     const errorMessage = (
         <div className="error-message">
             <p>
@@ -58,7 +77,7 @@ const Orders = props => {
     let content = "hey";
 
     if (loading) {
-        content = <Spinner/>
+        content = <div className="spinner"><Spinner/></div>
     }
     else if(error){
         content =  errorMessage;
@@ -70,6 +89,7 @@ const Orders = props => {
                 <OrderWindow
                     key={order.id}
                     order={order}
+                    orderUpdateHandler={orderUpdateHandler}
                     click={() => setViewOrderWindow(order)}
                 />
             );
@@ -94,13 +114,16 @@ const Orders = props => {
         
         const addOrder = <AddOrder customers={customers}/>
 
-        const viewOrder = <ViewOrder order={viewOrderWindow}/>
+        const viewOrder = <ViewOrder order={viewOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setViewOrderWindow}/>
+
+        const newOrder = <NewOrder order={newOrderWindow}/>
 
         content = (
             <React.Fragment>
 
                 {viewOrderWindow ? <Modal content={viewOrder} modalClick={() => setViewOrderWindow(false)}/> : null}
                 {addOrderWindow ? <Modal content={addOrder} modalClick={() => setAddOrderWindow(false)}/> : null}
+                {newOrderWindow ? <Modal content={newOrder}/> : null}
 
                 <PageHeader/>
                 <main>

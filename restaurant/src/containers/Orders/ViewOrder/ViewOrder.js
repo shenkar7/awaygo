@@ -1,16 +1,27 @@
 import './ViewOrder.css';
-import React from 'react';
+import React, {useState} from 'react';
+import Spinner from '../../../components/Spinner/Spinner';
+import axios from 'axios';
 
 const ViewOrder = props => {
 
+    const [loading, setLoading] = useState(false);
 
-    // const tryDate = Date.parse(props.order.date_time);
-    const tryDate = new Date(props.order.date_time);
-    console.log(tryDate);
-    console.log(typeof tryDate);
-    console.log(tryDate.getDate());
-    console.log(tryDate.getHours());
-    console.log(tryDate.getTime());
+    const getCookie = name => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     let street, number, floor, apartment;
     street = number = floor = apartment = '';
@@ -24,11 +35,67 @@ const ViewOrder = props => {
     if(props.order.address.apartment)
         apartment = " דירה " + String(props.order.address.apartment);
 
+
+    const newOrder = {...props.order};
+    console.log('before ' + newOrder.status);
+    switch (newOrder.status){
+        case "ready":
+            newOrder.status = 'process';
+            break;
+        case "sent":
+            newOrder.status = 'ready';
+            break;
+        case "delivered":
+            newOrder.status = 'sent';
+            break;
+        default:
+            break;
+    }
+    console.log('after ' + newOrder.status);
+
+    const backButtonHandler = () => {
+        setLoading(true);
+        const csrftoken = getCookie('csrftoken');
+
+
+        axios.put('http://127.0.0.1:8000/order/' + newOrder.id + '/',
+            newOrder,
+            {
+                headers: {'X-CSRFTOKEN': csrftoken,},
+            },
+        )
+        .then(res => {
+            console.log('SUCCESS');
+            setLoading(false);
+        })
+        .catch(err => {
+            setLoading('error');
+            console.log('ERROR');
+            console.log(err);
+        })
+        .then(() => {
+            if(!loading){
+                props.orderUpdateHandler(newOrder);
+                props.modalClose(false);
+            }
+        })
+    }
+
     let backButton = null;
-    if(props.order.status != "process"){
+    if(props.order.status !== "process"){
+        if(loading === true){
+            backButton = <span className='spinner'><Spinner/></span>;
+        }
+        else if(loading === 'error'){
+            backButton = (
+                <div class="back-button">
+                    שגיאת תקשורת
+                </div>
+            );
+        }
         backButton = (
             <div class="back-button">
-                <button>החזר למצב הקודם</button>
+                <button onClick={backButtonHandler}>החזר למצב הקודם</button>
             </div>
         );
     }

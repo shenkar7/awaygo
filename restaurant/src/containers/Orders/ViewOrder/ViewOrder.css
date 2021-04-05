@@ -65,3 +65,7 @@
 .view-order-window .back-button button:hover {
     background-color: rgb(194, 0, 0);
 }
+
+.order-window .spinner {
+    font-size: 2px;
+}
