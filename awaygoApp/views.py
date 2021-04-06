@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .models import Dish, Customer, Order, FoodCategory, DishInOrder
+from .models import *
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -11,16 +11,18 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import CustomerSerializer, OrderSerializer, DishSerializer, DishInOrderSerializer
+from .serializers import *
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
+def restaurant_menu(request):
+    return render(request, 'restaurant-menu/build/index.html', context={})
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 def restaurant(request):
-    return render(request, 'index.html', context={})
+    return render(request, 'restaurant/build/index.html', context={})
 
 @unauthenticated_user
 def loginPage(request):
@@ -44,7 +46,7 @@ def logoutUser(request):
     return redirect('loginPage')
 
 
-# API's
+# REST API's
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
@@ -74,6 +76,14 @@ def dishes_list(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
+def foodCategories_list(request):
+    foodCategories = FoodCategory.objects.filter(restaurant=request.user.restaurant)
+    serializer = FoodCategorySerializer(foodCategories, many=True)
+    return Response(serializer.data)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['restaurant'])
+@api_view(['GET'])
 def dishes_in_order(request, order_pk):
     dishes_in_orders = None
     if Order.objects.get(id=order_pk) in Order.objects.filter(restaurant=request.user.restaurant):
@@ -96,3 +106,4 @@ def order_detail(request, order_pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

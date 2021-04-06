@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 # Create your models here.
 
@@ -72,7 +73,7 @@ class Dish(models.Model):
         return self.name + ' - ' + self.category.restaurant.name
 
 class Order(models.Model):
-    date_time = models.DateTimeField(auto_now_add=True)
+    date_time = models.DateTimeField(default=timezone.now)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=9,
@@ -90,10 +91,35 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id) + " - " + self.restaurant.name + " - " + self.customer.first_name + " " + self.customer.last_name
 
+class ExtraCategory(models.Model):
+    name = models.CharField(max_length=200)
+    type = models.CharField(
+        max_length=9,
+        choices=[('checkbox', 'Checkbox'), ('radio', 'Radio')],
+        default='checkbox'
+    )
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "Extra Categories"
+
+    def __str__(self):
+        return self.name + ' - ' + self.dish.name + ' - ' + str(self.dish.category.restaurant.name)
+
+class Extra(models.Model):
+    name = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    extraCategory = models.ForeignKey(ExtraCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + ' - ' + self.extraCategory.dish.name + ' - ' + str(self.extraCategory.dish.category.restaurant.name)
+
 class DishInOrder(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    remark = models.TextField(blank=True, null=True)
+    extras = models.ManyToManyField(Extra)
 
     class Meta:
         verbose_name_plural = "Dishes In Orders"

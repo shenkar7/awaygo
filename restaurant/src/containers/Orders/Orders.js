@@ -116,7 +116,7 @@ const Orders = props => {
 
         const viewOrder = <ViewOrder order={viewOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setViewOrderWindow}/>
 
-        const newOrder = <NewOrder order={newOrderWindow}/>
+        const newOrder = <NewOrder order={newOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setNewOrderWindow}/>
 
         content = (
             <React.Fragment>

@@ -2,61 +2,29 @@ import './ViewOrder.css';
 import React, {useState} from 'react';
 import Spinner from '../../../components/Spinner/Spinner';
 import axios from 'axios';
+import {getCookie} from '../../../assets/functions';
 
 const ViewOrder = props => {
 
     const [loading, setLoading] = useState(false);
 
-    const getCookie = name => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    let street, number, floor, apartment;
-    street = number = floor = apartment = '';
-
-    if(props.order.address.street)
-        street = " " + props.order.address.street;
-    if(props.order.address.number)
-        number = " " + String(props.order.address.number);
-    if(props.order.address.floor)
-        floor = " קומה " + String(props.order.address.floor);
-    if(props.order.address.apartment)
-        apartment = " דירה " + String(props.order.address.apartment);
-
-
-    const newOrder = {...props.order};
-    console.log('before ' + newOrder.status);
-    switch (newOrder.status){
-        case "ready":
-            newOrder.status = 'process';
-            break;
-        case "sent":
-            newOrder.status = 'ready';
-            break;
-        case "delivered":
-            newOrder.status = 'sent';
-            break;
-        default:
-            break;
-    }
-    console.log('after ' + newOrder.status);
-
     const backButtonHandler = () => {
+        const newOrder = {...props.order};
+        switch (newOrder.status){
+            case "ready":
+                newOrder.status = 'process';
+                break;
+            case "sent":
+                newOrder.status = 'ready';
+                break;
+            case "delivered":
+                newOrder.status = 'sent';
+                break;
+            default:
+                break;
+        }
         setLoading(true);
         const csrftoken = getCookie('csrftoken');
-
 
         axios.put('http://127.0.0.1:8000/order/' + newOrder.id + '/',
             newOrder,
@@ -93,12 +61,26 @@ const ViewOrder = props => {
                 </div>
             );
         }
-        backButton = (
-            <div class="back-button">
-                <button onClick={backButtonHandler}>החזר למצב הקודם</button>
-            </div>
-        );
+        else {
+            backButton = (
+                <div class="back-button">
+                    <button onClick={backButtonHandler}>החזר למצב הקודם</button>
+                </div>
+            );
+        }
     }
+
+    let street, number, floor, apartment;
+    street = number = floor = apartment = '';
+
+    if(props.order.address.street)
+        street = " " + props.order.address.street;
+    if(props.order.address.number)
+        number = " " + String(props.order.address.number);
+    if(props.order.address.floor)
+        floor = " קומה " + String(props.order.address.floor);
+    if(props.order.address.apartment)
+        apartment = " דירה " + String(props.order.address.apartment);
 
     const content = (
         <div className="view-order-window">

@@ -8,9 +8,6 @@ const TimingOrder = props => {
 
     // default is 15 minutes
     const choiceHandler = (value) => {
-        console.log('[value] ' + value);
-        console.log('[timing] ' + timing);
-        console.log('[choiceNumberValue] ' + choiceNumberValue);
         if(value === 10) {
             setTiming(10);
             setChoiceNumberValue(10);
@@ -65,7 +62,7 @@ const TimingOrder = props => {
                     :אחר 
                 </div>
             </div>
-            <div className="time-order">
+            <div className="time-order" onClick={() => props.timingButtonHandler(timing)}>
                 <h1>תזמן הזמנה</h1>
             </div>
         </div>

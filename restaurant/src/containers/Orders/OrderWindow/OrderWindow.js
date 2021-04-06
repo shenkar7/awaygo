@@ -3,31 +3,15 @@ import './OrderWindow.css';
 import Countdown from '../../../components/Countdown/Countdown';
 import axios from 'axios';
 import Spinner from '../../../components/Spinner/Spinner';
+import {getCookie} from '../../../assets/functions';
 
 const OrderWindow = props => {
 
     const [loading, setLoading] = useState(false);
 
-    const getCookie = name => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    const newOrder = {...props.order};
-    newOrder.status = 'ready';
-
     const nextButtonHandler = () => {
+        const newOrder = {...props.order};
+        newOrder.status = 'ready';
         setLoading(true);
         const csrftoken = getCookie('csrftoken');
 
@@ -80,7 +64,7 @@ const OrderWindow = props => {
                 <div className="order-number-countdown">
                     <b>#{props.order.id}</b>
                     {props.order.status === 'process' ?
-                        <Countdown countDownDate={new Date(2021, 3, 1, 12, 36, 30).getTime()}/>
+                        <Countdown countDownDate={Date.parse(props.order.date_time)}/>
                         : null
                     }
                 </div>

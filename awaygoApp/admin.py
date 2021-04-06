@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Restaurant, Customer, Dish, Order, DishInOrder, FoodCategory, Address
+from .models import *
 
 # Register your models here.
-modelsList = [Restaurant, Customer, Dish, Order, DishInOrder, FoodCategory, Address]
+modelsList = [Restaurant, Address, Customer, FoodCategory, Dish, Order, DishInOrder, ExtraCategory, Extra]
 admin.site.register(modelsList)
