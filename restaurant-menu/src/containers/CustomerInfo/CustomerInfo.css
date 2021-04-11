@@ -1,0 +1,63 @@
+.back {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.back a {
+    cursor: pointer;
+    text-decoration: underline;
+    color: gray;
+}
+
+.back a:hover {
+    color: rgb(78, 78, 78);
+}
+
+.form-window {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.details-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details-section .info label{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.details-section .info input, .remark-section input {
+    height: 30px;
+    width: 250px;
+    background-color: rgb(249, 249, 249);
+    border: 1px solid gray;
+}
+
+.details-section .info {
+    margin-left: 40px;
+}
+
+.remark-section input{
+    width: 500px;
+}
+
+.submit-section {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.submit-section button {
+    width: 350px;
+    background-color: orange;
+    font-size: 18px;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.submit-section button:hover {
+    background-color: rgb(218, 141, 0);
+}

@@ -19,6 +19,9 @@ const DishInCart = props => {
                 <p>₪{price * parseFloat(props.dishInCart.quantity)}</p>
             </div>
             {extrasList}
+            <div className="delete">
+                <i class="fas fa-trash-alt" onClick={() => props.cartDishRemoveHandler(props.dishInCart)}></i>
+            </div>
             <hr/>
         </div>
     );

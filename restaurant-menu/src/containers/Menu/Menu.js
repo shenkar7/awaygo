@@ -1,5 +1,6 @@
 import './Menu.css';
-import React, {useState} from 'react';
+import React, {useState/*, useContext*/} from 'react';
+//import OrderContext from '../../OrderContext';
 import Navigation from './Navigation/Navigation';
 import DishDetails from './DishDetails/DishDetails';
 import Cart from './Cart/Cart';
@@ -9,6 +10,7 @@ const Menu = props => {
 
     
     const [dishDetailsWindow, setDishDetailsWindow] = useState(null);
+    // const cartDishes = useContext(OrderContext);
     const [cartDishes, setCartDishes] = useState([]);
 
     console.log(cartDishes);
@@ -18,6 +20,11 @@ const Menu = props => {
         setDishDetailsWindow(
             <Modal content={dishWindow} modalClick={() => setDishDetailsWindow(false)}/>
         );
+    }
+
+    const cartDishRemoveHandler = dishInCart => {
+        const newCart = cartDishes.filter(dish => dish !== dishInCart);
+        setCartDishes(newCart);
     }
 
     const categories = props.foodCategories.map(category => {
@@ -53,7 +60,7 @@ const Menu = props => {
                 <div className="categories">
                     {categories}
                 </div>
-                <Cart dishesInOrder={cartDishes}/>
+                <Cart dishesInOrder={cartDishes} cartDishRemoveHandler={cartDishRemoveHandler} submitHandler={() => props.submitHandler(cartDishes)}/>
             </div>
             {dishDetailsWindow}
         </div>

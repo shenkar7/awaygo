@@ -1,7 +1,9 @@
 import './Layout.css';
 import logoImg from '../assets/img/logo.jpg';
 import React, {useState, useEffect} from 'react';
+//import ThemeContext from '../OrderContext';
 import Menu from './Menu/Menu';
+import CustomerInfo from './CustomerInfo/CustomerInfo';
 import Spinner from '../components/Spinner/Spinner';
 import axios from 'axios';
 
@@ -11,10 +13,11 @@ const Layout = () => {
     const [loading, setLoading] = useState(true);
     const [restaurant, setRestaurant] = useState(null);
     const [foodCategories, setFoodCategories] = useState(null);
+    const [order, setOrder] = useState({});
 
     let id;
     const params = new URLSearchParams(document.location.search.substring(1));
-    id = params.get('id')
+    id = params.get('id');
 
     useEffect(() => {
 
@@ -43,6 +46,15 @@ const Layout = () => {
         content = <div>שגיאת תקשורת</div>
     }
     else {
+
+        let main = null;
+        if(order === "menu")
+            main = <Menu foodCategories={foodCategories} submitHandler={setOrder}/>;
+        else if (order === "success")
+            main = <h3>ההזמנה בוצעה בהצלחה</h3>;
+        else
+            main = <CustomerInfo />
+
         content = (
             <div>
                 <header>
@@ -51,13 +63,17 @@ const Layout = () => {
                 <main className='main'>
                     <h2>{restaurant.name}</h2>
                     <p>{restaurant.freetext}</p>
-                    <Menu foodCategories={foodCategories}/>
+                    {main}
                 </main>
             </div>
         )
     }
 
-    return content;
+    return (
+        /*<OrderContext.Provider>*/
+            {content}
+        /*</OrderContext.Provider>*/
+    );
 }
 
 export default Layout;
