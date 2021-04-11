@@ -73,12 +73,16 @@ def dishes_list(request):
     serializer = DishSerializer(dishes, many=True)
     return Response(serializer.data)
 
-@login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
-def foodCategories_list(request):
-    foodCategories = FoodCategory.objects.filter(restaurant=request.user.restaurant)
+def foodCategories_list(request, restaurant_pk):
+    foodCategories = FoodCategory.objects.filter(restaurant=Restaurant.objects.get(id=restaurant_pk))
     serializer = FoodCategorySerializer(foodCategories, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def restaurant_details(request, restaurant_pk):
+    restaurant = Restaurant.objects.get(id=restaurant_pk)
+    serializer = RestaurantSerializer(restaurant)
     return Response(serializer.data)
 
 @login_required(login_url='loginPage')

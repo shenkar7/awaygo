@@ -1,0 +1,39 @@
+.menu .nav-and-hr {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 40px;
+    background-color: white;
+}
+
+.categories-and-cart {
+    display: flex;
+}
+
+.categories-and-cart .categories {
+    width: 900px;
+    margin-left: 20px;
+}
+
+.categories-and-cart .category {
+    margin-bottom: 20px;
+    padding-top: 1px;
+}
+
+.categories-and-cart .category h3 {
+    color: #008ab1;
+}
+
+.categories-and-cart .category .dishes-in-category {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.categories-and-cart .category .dishes-in-category .dish {
+    width: 47%;
+    background-color: rgb(245, 245, 245);
+    padding: 10px;
+    margin-bottom: 13px;
+    cursor: pointer;
+}
+

@@ -1,0 +1,4 @@
+.name-and-price {
+    display: flex;
+    justify-content: space-between;
+}
