@@ -1,6 +1,5 @@
 import './Menu.css';
-import React, {useState/*, useContext*/} from 'react';
-//import OrderContext from '../../OrderContext';
+import React, {useState} from 'react';
 import Navigation from './Navigation/Navigation';
 import DishDetails from './DishDetails/DishDetails';
 import Cart from './Cart/Cart';
@@ -8,24 +7,7 @@ import Modal from '../../components/Modal/Modal';
 
 const Menu = props => {
 
-    
     const [dishDetailsWindow, setDishDetailsWindow] = useState(null);
-    // const cartDishes = useContext(OrderContext);
-    const [cartDishes, setCartDishes] = useState([]);
-
-    console.log(cartDishes);
-
-    const dishClickHandler = (dish) => {
-        const dishWindow = <DishDetails dish={dish} setWindowModal={() => setDishDetailsWindow(null)} setCartDishes={setCartDishes}/>;
-        setDishDetailsWindow(
-            <Modal content={dishWindow} modalClick={() => setDishDetailsWindow(false)}/>
-        );
-    }
-
-    const cartDishRemoveHandler = dishInCart => {
-        const newCart = cartDishes.filter(dish => dish !== dishInCart);
-        setCartDishes(newCart);
-    }
 
     const categories = props.foodCategories.map(category => {
             const dishes = category.dishes.map(dish =>
@@ -43,9 +25,16 @@ const Menu = props => {
                         {dishes}
                     </div>
                 </div>
-            )
+            );
         }    
     );
+
+    const dishClickHandler = (dish) => {
+        const dishWindow = <DishDetails dish={dish} setWindowModal={() => setDishDetailsWindow(null)}/>;
+        setDishDetailsWindow(
+            <Modal content={dishWindow} modalClick={() => setDishDetailsWindow(false)}/>
+        );
+    }
 
     const content = (
         <div className="menu">
@@ -60,7 +49,7 @@ const Menu = props => {
                 <div className="categories">
                     {categories}
                 </div>
-                <Cart dishesInOrder={cartDishes} cartDishRemoveHandler={cartDishRemoveHandler} submitHandler={() => props.submitHandler(cartDishes)}/>
+                <Cart submitHandler={props.submitHandler}/>
             </div>
             {dishDetailsWindow}
         </div>

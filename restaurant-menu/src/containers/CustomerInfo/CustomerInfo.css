@@ -3,13 +3,13 @@
     margin-bottom: 20px;
 }
 
-.back a {
+.back span {
     cursor: pointer;
     text-decoration: underline;
     color: gray;
 }
 
-.back a:hover {
+.back span:hover {
     color: rgb(78, 78, 78);
 }
 
@@ -60,4 +60,15 @@
 
 .submit-section button:hover {
     background-color: rgb(218, 141, 0);
+}
+
+.invalid label{
+    color: red;
+    font-weight: bold;
+}
+
+.invalidMessage {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
 }

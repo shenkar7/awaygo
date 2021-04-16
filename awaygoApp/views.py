@@ -15,6 +15,8 @@ from .serializers import *
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 
+from datetime import datetime
+
 # Create your views here.
 def restaurant_menu(request):
     return render(request, 'restaurant-menu/build/index.html', context={})
@@ -61,7 +63,7 @@ def customers_list(request):
 @api_view(['GET'])
 def orders_list(request):
     orders = Order.objects.filter(restaurant=request.user.restaurant)
-    serializer = OrderSerializer(orders, many=True)
+    serializer = DetailedOrderSerializer(orders, many=True)
     return Response(serializer.data)
 
 @login_required(login_url='loginPage')
@@ -85,15 +87,15 @@ def restaurant_details(request, restaurant_pk):
     serializer = RestaurantSerializer(restaurant)
     return Response(serializer.data)
 
-@login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['restaurant'])
-@api_view(['GET'])
-def dishes_in_order(request, order_pk):
-    dishes_in_orders = None
-    if Order.objects.get(id=order_pk) in Order.objects.filter(restaurant=request.user.restaurant):
-        dishes_in_orders = DishInOrder.objects.filter(order=order_pk)
-    serializer = DishInOrderSerializer(dishes_in_orders, many=True)
-    return Response(serializer.data)
+# @login_required(login_url='loginPage')
+# @allowed_users(allowed_roles=['restaurant'])
+# @api_view(['GET'])
+# def dishes_in_order(request, order_pk):
+#     dishes_in_orders = None
+#     if Order.objects.get(id=order_pk) in Order.objects.filter(restaurant=request.user.restaurant):
+#         dishes_in_orders = DishInOrder.objects.filter(order=order_pk)
+#     serializer = DishInOrderSerializer(dishes_in_orders, many=True)
+#     return Response(serializer.data)
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
@@ -111,3 +113,103 @@ def order_detail(request, order_pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def order_add(request):
+
+    # example of correct input:
+    # {
+    #     "restaurant": 1,
+    #     "city": "רעננה",
+    #     "street": "תפוח",   not required
+    #     "number": "2",      not required
+    #     "apartment": "",    not required
+    #     "customer": {
+    #         "phone_number": "0544737689",
+    #         "first_name": "יונה",
+    #         "last_name": "מדרכי",
+    #         "email": "asd@asd.com"  not required
+    #     },
+    #     "remark": "לא לאחר",  not required
+    #     "dishes_in_order": [
+    #         {
+    #             "dish": 1,
+    #             "remark": "בלי חריף",  not required
+    #             "quantity": 5,
+    #             "extras": ["1", "2", "3"] not required
+    #         },
+    #         {
+    #             "dish": 2,
+    #             "remark": "כולם לקום",
+    #             "quantity": 4,
+    #             "extras": []
+    #         }
+    #     ]
+    # }
+
+    # fixing IntegerField not accepting empty string
+    if request.data["number"] == "":
+            request.data["number"] = None
+    if request.data["apartment"] == "":
+        request.data["apartment"] = None
+
+    customer = None
+
+    # check if customer exists by phone_number
+    if Customer.objects.filter(phone_number=request.data['customer']['phone_number']).exists():
+        # if exists - use it
+        print("customer exists")
+        customer = Customer.objects.get(phone_number=request.data['customer']['phone_number']).id
+    else:
+        # if not - create a new customer with same address and use it
+        print("customer doesn't exists, trying to create")
+        
+        customer = request.data["customer"]
+        customer["city"] = request.data["city"]
+        customer["street"] = request.data["street"]
+        customer["number"] = request.data["number"]
+        customer["apartment"] = request.data["apartment"]
+
+        customerSerializer = CustomerSerializer(data=customer)
+        if customerSerializer.is_valid():
+            customer = customerSerializer.save().id
+            print("New customer saved")
+        else:
+            print("Customer not valid")
+            return Response(customerSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    # create order with the customer
+    order = {
+        "restaurant": request.data["restaurant"],
+        "remark": request.data["remark"],
+        "customer": customer,
+        "city": request.data["city"],
+        "street": request.data["street"],
+        "number": request.data["number"],
+        "apartment": request.data["apartment"]
+    }
+
+    orderSerializer = OrderSerializer(data=order)
+    if orderSerializer.is_valid():
+        order = orderSerializer.save().id
+        print("New order saved")
+    else:
+        print("New order not valid")
+        return Response(orderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # create multiple dishes in order
+    for dishInOrder in request.data["dishes_in_order"]:
+        newDishInOrder = dishInOrder.copy()
+        newDishInOrder["order"] = order
+
+        dishInOrderSerializer = DishInOrderSerializer(data=newDishInOrder)
+        if dishInOrderSerializer.is_valid():
+            dishInOrderSerializer.save()
+            print("Dish in order saved")
+        else:
+            print("Dish in order not valid")
+            return Response(dishInOrderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+    return Response(orderSerializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(request.data)

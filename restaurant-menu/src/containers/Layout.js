@@ -1,7 +1,7 @@
 import './Layout.css';
 import logoImg from '../assets/img/logo.jpg';
 import React, {useState, useEffect} from 'react';
-//import ThemeContext from '../OrderContext';
+import OrderContext from '../OrderContext';
 import Menu from './Menu/Menu';
 import CustomerInfo from './CustomerInfo/CustomerInfo';
 import Spinner from '../components/Spinner/Spinner';
@@ -10,14 +10,30 @@ import axios from 'axios';
 
 const Layout = () => {
 
-    const [loading, setLoading] = useState(true);
-    const [restaurant, setRestaurant] = useState(null);
-    const [foodCategories, setFoodCategories] = useState(null);
-    const [order, setOrder] = useState({});
-
     let id;
     const params = new URLSearchParams(document.location.search.substring(1));
     id = params.get('id');
+
+    const [loading, setLoading] = useState(true);
+    const [restaurant, setRestaurant] = useState(null);
+    const [foodCategories, setFoodCategories] = useState(null);
+    const [page, setPage] = useState("menu");
+    
+    const [order, setOrder] = useState({
+        restaurant: id,
+        city: "",
+        street: "",
+        number: "",
+        apartment: "",
+        customer: {
+            phone_number: "",
+            first_name: "",
+            last_name: "",
+            email: ""
+        },
+        remark: "",
+        dishes_in_order: []
+    });
 
     useEffect(() => {
 
@@ -46,14 +62,13 @@ const Layout = () => {
         content = <div>שגיאת תקשורת</div>
     }
     else {
-
         let main = null;
-        if(order === "menu")
-            main = <Menu foodCategories={foodCategories} submitHandler={setOrder}/>;
-        else if (order === "success")
+        if(page === "menu")
+            main = <Menu foodCategories={foodCategories} submitHandler={() => setPage("customer-info")}/>;
+        else if (page === "customer-info")
+            main = <CustomerInfo back={() => setPage("menu")}/>
+        else if (page === "success")
             main = <h3>ההזמנה בוצעה בהצלחה</h3>;
-        else
-            main = <CustomerInfo />
 
         content = (
             <div>
@@ -66,13 +81,13 @@ const Layout = () => {
                     {main}
                 </main>
             </div>
-        )
+        ) 
     }
 
     return (
-        /*<OrderContext.Provider>*/
+        <OrderContext.Provider value={[order, setOrder]}>
             {content}
-        /*</OrderContext.Provider>*/
+        </OrderContext.Provider>
     );
 }
 

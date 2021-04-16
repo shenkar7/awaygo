@@ -12,7 +12,6 @@ const AddOrder = props => {
     const [city, setCity] = useState('');
     const [street, setStreet] = useState('');
     const [number, setNumber] = useState('');
-    const [floor, setFloor] = useState('');
     const [apartment, setApartment] = useState('');
 
     
@@ -35,24 +34,20 @@ const AddOrder = props => {
                     setLastName(customer.last_name);
                 else
                     setLastName('');
-                if(customer.address.city)
-                    setCity(customer.address.city);
+                if(customer.city)
+                    setCity(customer.city);
                 else
                     setCity('');
-                if(customer.address.street)
-                    setStreet(customer.address.street);
+                if(customer.street)
+                    setStreet(customer.street);
                 else
                     setStreet('');
-                if(customer.address.number)
-                    setNumber(customer.address.number);
+                if(customer.number)
+                    setNumber(customer.number);
                 else
                     setNumber('');
-                if(customer.address.floor)
-                    setFloor(customer.address.floor);
-                else
-                    setFloor('');
-                if(customer.address.apartment)
-                    setApartment(customer.address.apartment);
+                if(customer.apartment)
+                    setApartment(customer.apartment);
                 else
                     setApartment('');
             }
@@ -80,7 +75,6 @@ const AddOrder = props => {
                     </div>
                     <div>
                         <OrderInput type="number" placeholder="מספר דירה" value={apartment} set={setApartment}/>
-                        <OrderInput type="number" placeholder="קומה" value={floor} set={setFloor}/>
                     </div>
                     <h3>הערות</h3>
                     <div className="remark">

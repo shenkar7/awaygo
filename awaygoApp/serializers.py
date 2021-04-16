@@ -6,22 +6,15 @@ class RestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = ['id', 'name', 'freetext']
 
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = ['city', 'street', 'number', 'zip_code', 'floor', 'apartment']
-
-class CustomerSerializer(serializers.ModelSerializer):
-    address = AddressSerializer(read_only=True)
-    
+class CustomerSerializer(serializers.ModelSerializer):  
     class Meta:
         model = Customer
-        fields = ['id', 'phone_number', 'first_name', 'last_name', 'email', 'address']
+        fields = '__all__'
 
 class ExtraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extra
-        fields = fields = ['name', 'price']
+        fields = fields = ['id', 'name', 'price']
 
 class ExtraCategorySerializer(serializers.ModelSerializer):
     extras = ExtraSerializer(source='extra_set', many=True, read_only=True)
@@ -35,7 +28,7 @@ class FullDishSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Dish
-        fields = ['name', 'description', 'price', 'extraCategories']
+        fields = ['id','name', 'description', 'price', 'extraCategories']
 
 class FoodCategorySerializer(serializers.ModelSerializer):
     dishes = FullDishSerializer(source='dish_set', many=True, read_only=True)
@@ -50,17 +43,27 @@ class DishSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DishInOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DishInOrder
+        fields = ['dish', 'extras', 'order', 'quantity', 'remark']
+
+class DetailedDishInOrderSerializer(serializers.ModelSerializer):
     dish = DishSerializer(read_only=True)
+    extras = ExtraSerializer(many=True, read_only=True)
     
     class Meta:
         model = DishInOrder
-        fields = ['dish', 'quantity']
+        fields = ['dish', 'extras', 'order', 'quantity', 'remark']
 
 class OrderSerializer(serializers.ModelSerializer):
-    address = AddressSerializer(read_only=True)
-    customer = CustomerSerializer(read_only=True)
-    dishesinorder = DishInOrderSerializer(source='dishinorder_set', many=True, read_only=True)
-
     class Meta:
         model = Order
         fields = '__all__'
+
+class DetailedOrderSerializer(serializers.ModelSerializer):
+    dishesinorder = DetailedDishInOrderSerializer(source='dishinorder_set', many=True, read_only=True)
+    customer = CustomerSerializer(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'date_time', 'status', 'customer', 'city', 'street', 'number', 'apartment', 'dishesinorder']

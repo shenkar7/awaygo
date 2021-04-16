@@ -1,10 +1,19 @@
 import './DishDetails.css';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import OrderContext from '../../../OrderContext';
 import Counter from '../../../components/Counter/Counter';
 
 const DishDetails = props => {
 
-    const initialForm = {dish: props.dish, remark: "", quantity: 1, extras: []};
+    const setOrder = useContext(OrderContext)[1];
+
+    const initialForm = {
+        dish: props.dish,
+        remark: "",
+        quantity: 1,
+        extras: []
+    };
+
     props.dish.extraCategories.forEach(category => {
         if (category.type === "radio")
             initialForm.extras.push(category.extras[0]);
@@ -14,9 +23,9 @@ const DishDetails = props => {
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
-        props.setCartDishes(prevState => {
-            const newState = [...prevState];
-            newState.push(formValues);
+        setOrder(prevState => {
+            const newState = {...prevState};
+            newState.dishes_in_order.push(formValues);
             return(newState);
         });
         props.setWindowModal();
