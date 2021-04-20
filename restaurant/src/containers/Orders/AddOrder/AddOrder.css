@@ -5,6 +5,9 @@
 .add-order-window  {
     display: flex;
     flex-direction: row-reverse;
+    width: 1300px;
+    height: 500px;
+    background-color: white;
 }
 
 .add-order-window h2, .add-order-window h3 {
@@ -13,18 +16,38 @@
     margin-top: 7px;
 }
 
-.costumer-details {
-    background-color: white;
-    padding: 30px;
-    margin-left: 10px;
+.add-order-window .customer-and-menu {
+    flex-grow: 1;
+    padding: 25px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.costumer-details .remark input{
-    width: 80%;
-}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 
-.menu {
-    background-color: #f2f2f2;
+
+.cart {
+    width: 400px;
+    padding: 10px;
 }
 
 .make-order {

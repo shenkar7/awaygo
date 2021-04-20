@@ -4,7 +4,7 @@ from .models import *
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'freetext']
+        fields = ['id', 'name', 'freetext', 'background_img']
 
 class CustomerSerializer(serializers.ModelSerializer):  
     class Meta:
@@ -28,7 +28,7 @@ class FullDishSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Dish
-        fields = ['id','name', 'description', 'price', 'extraCategories']
+        fields = ['id','name', 'description', 'price', 'extraCategories', 'img']
 
 class FoodCategorySerializer(serializers.ModelSerializer):
     dishes = FullDishSerializer(source='dish_set', many=True, read_only=True)
@@ -66,4 +66,4 @@ class DetailedOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'date_time', 'status', 'customer', 'city', 'street', 'number', 'apartment', 'dishesinorder']
+        fields = ['id', 'restaurant', 'date_time', 'status', 'customer', 'city', 'street', 'number', 'apartment', 'remark','dishesinorder']

@@ -17,7 +17,7 @@ const Layout = () => {
     const [loading, setLoading] = useState(true);
     const [restaurant, setRestaurant] = useState(null);
     const [foodCategories, setFoodCategories] = useState(null);
-    const [page, setPage] = useState("menu");
+    const [page, setPage] = useState({page: "menu", info: null});
     
     const [order, setOrder] = useState({
         restaurant: id,
@@ -47,7 +47,8 @@ const Layout = () => {
             setLoading(false);
         })
         .catch(err => {
-            console.log("ERROR! " + err.message);
+            console.log("ERROR getting restaurant and foodCategories");
+            console.log(err);
             setLoading('error');
         })
     }, [id]);
@@ -63,18 +64,27 @@ const Layout = () => {
     }
     else {
         let main = null;
-        if(page === "menu")
-            main = <Menu foodCategories={foodCategories} submitHandler={() => setPage("customer-info")}/>;
-        else if (page === "customer-info")
-            main = <CustomerInfo back={() => setPage("menu")}/>
-        else if (page === "success")
-            main = <h3>ההזמנה בוצעה בהצלחה</h3>;
+        if(page.page === "menu")
+            main = <Menu foodCategories={foodCategories} submitHandler={() => setPage({page: "customer-info", info: null})}/>;
+        else if (page.page === "customer-info")
+            main = <CustomerInfo back={() => setPage({page: "menu", info: null})} setPage={setPage}/>
+        else if (page.page === "success")
+            main = (
+                <div className="success">
+                    <br/>
+                    <h3>ההזמנה בוצעה בהצלחה</h3>
+                    מספר הזמנה {page.info}
+                </div>
+            );
 
         content = (
             <div>
                 <header>
                     <img src={logoImg} alt="logo"/>
                 </header>
+                <div className="restaurant-back-img">
+                    <img alt="pic" src={"http://127.0.0.1:8000" + restaurant.background_img}/>
+                </div>
                 <main className='main'>
                     <h2>{restaurant.name}</h2>
                     <p>{restaurant.freetext}</p>

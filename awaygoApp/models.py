@@ -9,7 +9,7 @@ class Restaurant(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, unique=True)
     freetext = models.TextField(blank=True, null=True)
-    # img = models.ImageField(upload_to='restaurants/', blank=True, null=True)
+    background_img = models.ImageField(upload_to='restaurants/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -44,7 +44,7 @@ class Dish(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE)
-    # img = models.ImageField(upload_to='dishes/', blank=True, null=True)
+    img = models.ImageField(upload_to='dishes/', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Dishes"
@@ -58,7 +58,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=9,
         choices=[('new', 'New'), ('process', 'In Process'), ('ready', 'Ready'), ('sent', 'Sent'), ('delivered', 'Delivered')],
-        default='process'
+        default='new'
     )
     remark = models.TextField(blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

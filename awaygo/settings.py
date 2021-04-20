@@ -127,9 +127,14 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'restaurant/build/static'),
-     os.path.join(BASE_DIR, 'restaurant-menu/build/static'),
+    os.path.join(BASE_DIR, 'restaurant-menu/build/static'),
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'awaygoApp/media')
+
+MEDIA_URL = '/media/'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+

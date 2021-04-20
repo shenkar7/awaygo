@@ -53,8 +53,16 @@ def logoutUser(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
+def my_restaurant(request):
+    restaurant = request.user.restaurant
+    serializer = RestaurantSerializer(restaurant)
+    return Response(serializer.data)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['restaurant'])
+@api_view(['GET'])
 def customers_list(request):
-    customers = Customer.objects.all()
+    customers = Customer.objects.filter(order__in=Order.objects.filter(restaurant=request.user.restaurant))
     serializer = CustomerSerializer(customers, many=True)
     return Response(serializer.data)
 
@@ -87,15 +95,6 @@ def restaurant_details(request, restaurant_pk):
     serializer = RestaurantSerializer(restaurant)
     return Response(serializer.data)
 
-# @login_required(login_url='loginPage')
-# @allowed_users(allowed_roles=['restaurant'])
-# @api_view(['GET'])
-# def dishes_in_order(request, order_pk):
-#     dishes_in_orders = None
-#     if Order.objects.get(id=order_pk) in Order.objects.filter(restaurant=request.user.restaurant):
-#         dishes_in_orders = DishInOrder.objects.filter(order=order_pk)
-#     serializer = DishInOrderSerializer(dishes_in_orders, many=True)
-#     return Response(serializer.data)
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
@@ -111,6 +110,7 @@ def order_detail(request, order_pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])

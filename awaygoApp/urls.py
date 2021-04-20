@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.loginPage, name='loginPage'),    ### in use
     path('logout', views.logoutUser, name='logout'),    ### in use
     path('restaurant', views.restaurant, name='restaurant'),    ### in use
+    path('my_restaurant', views.my_restaurant, name='my_restaurant'),
     path('restaurant/<int:restaurant_pk>/', views.restaurant_details),    ### in use
     path('restaurant_menu/', views.restaurant_menu, name='restaurant_menu'),     ### in use
     path('customers', views.customers_list),    ### in use

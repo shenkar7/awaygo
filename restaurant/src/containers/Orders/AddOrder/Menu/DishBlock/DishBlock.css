@@ -1,0 +1,10 @@
+.dish-name{
+    background-color: #f6f6f6;
+    cursor: pointer;
+    margin: 2px 0 2px 0;
+    padding: 4px;
+}
+
+.dish-name .dish-extras {
+    background-color: white;
+}

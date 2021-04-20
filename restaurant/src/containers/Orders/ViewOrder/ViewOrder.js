@@ -10,6 +10,8 @@ const ViewOrder = props => {
 
     const backButtonHandler = () => {
         const newOrder = {...props.order};
+        newOrder.customer = newOrder.customer.id;
+
         switch (newOrder.status){
             case "ready":
                 newOrder.status = 'process';
@@ -23,6 +25,7 @@ const ViewOrder = props => {
             default:
                 break;
         }
+        
         setLoading(true);
         const csrftoken = getCookie('csrftoken');
 
@@ -33,16 +36,17 @@ const ViewOrder = props => {
             },
         )
         .then(res => {
-            console.log('SUCCESS');
+            console.log('SUCCESS updating the order');
             setLoading(false);
         })
         .catch(err => {
             setLoading('error');
-            console.log('ERROR');
-            console.log(err);
+            console.log('ERROR updating the order');
+            console.log(err.message);
         })
         .then(() => {
             if(!loading){
+                newOrder.customer = props.order.customer;
                 props.orderUpdateHandler(newOrder);
                 props.modalClose(false);
             }
@@ -80,6 +84,8 @@ const ViewOrder = props => {
     if(props.order.apartment)
         apartment = " דירה " + String(props.order.apartment);
 
+    console.log(props.order);
+
     const content = (
         <div className="view-order-window">
             <div className="order-number"><b>#{props.order.id}</b></div>
@@ -90,7 +96,25 @@ const ViewOrder = props => {
                 <div className="food-section">
                     <i className="fas fa-hamburger"></i>
                     <div>
-                        {props.order.dishesinorder.map(dish => <p className="food">{dish.dish.name + " ×" + dish.quantity}</p>)}
+                        {props.order.dishesinorder.map(dishInOrder => {
+                            let extras = [];
+                            for (let i = 0; i < dishInOrder.extras.length; i++) {
+                                if (i < dishInOrder.extras.length - 1)
+                                    extras.push(dishInOrder.extras[i].name + ", ");
+                                else
+                                    extras.push(dishInOrder.extras[i].name);
+                            }
+                            let remark = null;
+                            if (dishInOrder.remark)
+                                remark = <p className="food">{dishInOrder.remark}{" "}<i className="fas fa-exclamation-triangle"></i></p>
+                            return (
+                                <div key={Math.random()}>
+                                    {dishInOrder.dish.name + " × " + dishInOrder.quantity}
+                                    <p className="food">{extras}</p>
+                                    {remark}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
                 {props.order.remark ?

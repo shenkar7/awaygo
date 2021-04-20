@@ -37,3 +37,21 @@
     cursor: pointer;
 }
 
+.categories .dish {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categories .dish .dish-image{
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.categories .dish .dish-image img{
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
+}

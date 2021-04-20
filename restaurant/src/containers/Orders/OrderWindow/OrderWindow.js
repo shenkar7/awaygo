@@ -12,6 +12,8 @@ const OrderWindow = props => {
     const nextButtonHandler = () => {
         const newOrder = {...props.order};
         newOrder.status = 'ready';
+        newOrder.customer = newOrder.customer.id;
+
         setLoading(true);
         const csrftoken = getCookie('csrftoken');
 
@@ -22,16 +24,17 @@ const OrderWindow = props => {
             },
         )
         .then(res => {
-            console.log('SUCCESS');
+            console.log('SUCCESS updating the order');
             setLoading(false);
         })
         .catch(err => {
             setLoading('error');
-            console.log('ERROR');
-            console.log(err);
+            console.log('ERROR updating the order');
+            console.log(err.message);
         })
         .then(() => {
             if(!loading){
+                newOrder.customer = props.order.customer;
                 props.orderUpdateHandler(newOrder);
             }
         })
@@ -75,8 +78,8 @@ const OrderWindow = props => {
                     <div className="food-section">
                         <i className="fas fa-hamburger"></i>
                         <div>
-                            {props.order.dishesinorder.slice(0, 2).map(dish => <p className="food">{dish.dish.name + " ×" + dish.quantity}</p>)}
-                        </div>
+                            {props.order.dishesinorder.slice(0, 2).map(dishInOrder => <p className="food">{dishInOrder.dish.name + " ×" + dishInOrder.quantity}</p>)}
+                        </div>  
                     </div>
                     {props.order.remark ?
                         <React.Fragment>

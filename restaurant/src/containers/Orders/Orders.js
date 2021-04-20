@@ -10,16 +10,15 @@ import AddOrder from './AddOrder/AddOrder';
 import ViewOrder from './ViewOrder/ViewOrder';
 import NewOrder from './NewOrder/NewOrder';
 import Spinner from '../../components/Spinner/Spinner';
-
-// fake data
-// import {orders} from '../../fakeData';
+import OrderContext from './AddOrder/OrderContext';
 
 
 const Orders = props => {
 
     const [orders, setOrders] = useState(null);
-    const [dishes, setDishes] = useState(null);
-    const [customers, setCustomers] = useState(null);
+    const [customersList, setCustomersList] = useState(null);
+    const [restaurant, setRestaurant] = useState(null);
+    const [foodCategories, setFoodCategories] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -36,25 +35,39 @@ const Orders = props => {
     }
 
     useEffect(() => {
+        const getCustomers = axios.get("http://127.0.0.1:8000/customers");
+        const getOrders = axios.get("http://127.0.0.1:8000/orders");
+        const getRestaurant = axios.get("http://127.0.0.1:8000/my_restaurant");
 
-        const getCustomers = axios.get("http://127.0.0.1:8000/customers")
-        const getDishes = axios.get("http://127.0.0.1:8000/dishes")
-        const getOrders = axios.get("http://127.0.0.1:8000/orders")
-
-
-        axios.all([getCustomers, getDishes, getOrders])
+        axios.all([getCustomers, getOrders, getRestaurant])
             .then((responses) => {
-                setCustomers(responses[0].data);
-                setDishes(responses[1].data);
-                setOrders(responses[2].data);
+                setCustomersList(responses[0].data);
+                setOrders(responses[1].data);
+                setRestaurant(responses[2].data)
             })
             .catch((errors) => {
+                console.log("ERROR getting customers, orders and my_restaurant");
+                console.log(errors);
                 setError(errors);
             })
-            .then(() => {
-                setLoading(false);
-            })
     }, []);
+
+    useEffect(() => {
+        if (restaurant) {
+            axios.get('http://127.0.0.1:8000/foodcategories/' + restaurant.id + '/')
+                .then((res) => {
+                    setFoodCategories(res.data)
+                })
+                .catch((err) => {
+                    console.log("ERROR getting foodcategories");
+                    console.log(err.message);
+                    setError(err);
+                })
+                .then(() => {
+                    setLoading(false);
+                })
+        }
+    }, [restaurant]);
 
     const orderUpdateHandler = newOrder => {
         const newOrders = [...orders];
@@ -74,7 +87,7 @@ const Orders = props => {
         </div>
     );
 
-    let content = "hey";
+    let content = null;
 
     if (loading) {
         content = <div className="spinner"><Spinner/></div>
@@ -112,7 +125,7 @@ const Orders = props => {
 
         //  delivered orders for history
         
-        const addOrder = <AddOrder customers={customers}/>
+        const addOrder = <AddOrder customersList={customersList} restaurantId={restaurant.id}/>
 
         const viewOrder = <ViewOrder order={viewOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setViewOrderWindow}/>
 
@@ -156,7 +169,11 @@ const Orders = props => {
         );
     }
 
-    return content;
+    return (
+        <OrderContext.Provider value={{customersList: customersList, foodCategories: foodCategories}}>
+            {content} 
+        </OrderContext.Provider>
+    );
 }
 
 export default Orders;

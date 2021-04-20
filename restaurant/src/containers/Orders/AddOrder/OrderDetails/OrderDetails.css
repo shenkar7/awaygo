@@ -1,0 +1,30 @@
+.order-details {
+    margin-bottom: 35px;
+}
+
+.order-details .remark input{
+    width: 80%;
+}
+
+
+.order-details .customer-details, .order-details .address-details {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.order-details .order-input {
+    flex: 1;
+}
+
+
+.order-details input {
+    background-color: #f1f8fe;
+    border: 1px solid #bdcdd8;
+    padding: 10px;
+    text-align: right;
+}
+
+.order-details input::placeholder {
+    text-align: right;
+    color: #3a96e1;
+}

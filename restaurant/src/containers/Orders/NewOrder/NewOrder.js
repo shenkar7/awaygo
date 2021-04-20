@@ -8,18 +8,14 @@ import axios from 'axios';
 const NewOrder = props => {
 
     const [loading, setLoading] = useState(false);
-    console.log()
+    
     const timingButtonHandler = (timing) => {
         const newOrder = {...props.order};
-        // console.log(newOrder.date_time); //2021-04-01T09:15:17.329530+03:00
-        // const newDateTime = new Date(Date.now() + timing * 60 * 1000);
-        newOrder.date_time = new Date(Date.now() + timing * 60 * 1000);
-        
 
+        newOrder.date_time = new Date(Date.now() + timing * 60 * 1000);
         newOrder.status = 'process';
-        // console.log(newOrder.date_time); //2021-04-06T06:47:45.001Z
-        // newOrder.date_time = new Date('2021-04-01T09:55:17.329530+03:00');
-        // console.log(newOrder.date_time);
+        newOrder.customer = newOrder.customer.id;
+
         setLoading(true);
         const csrftoken = getCookie('csrftoken');
 
@@ -30,17 +26,17 @@ const NewOrder = props => {
             },
         )
         .then(res => {
-            console.log(res)
-            console.log('SUCCESS');
+            console.log('SUCCESS updating order');
             setLoading(false);
         })
         .catch(err => {
             setLoading('error');
-            console.log('ERROR');
-            console.log(err);
+            console.log('ERROR updating order');
+            console.log(err.message);
         })
         .then(() => {
             if(!loading){
+                newOrder.customer = props.order.customer;
                 props.orderUpdateHandler(newOrder);
                 props.modalClose(false);
             }
@@ -84,7 +80,21 @@ const NewOrder = props => {
                 <div className="food-section">
                     <i className="fas fa-hamburger"></i>
                     <div>
-                        {props.order.dishesinorder.map(dish => <p className="food">{dish.dish.name + " ×" + dish.quantity}</p>)}
+                        {props.order.dishesinorder.slice(0, 2).map(dishInOrder => {
+                            let extras = [];
+                            for (let i = 0; i < dishInOrder.extras.length; i++) {
+                                if (i < dishInOrder.extras.length - 1)
+                                    extras.push(dishInOrder.extras[i].name + ", ");
+                                else
+                                    extras.push(dishInOrder.extras[i].name);
+                            }
+                            return (
+                                <div key={Math.random()}>
+                                    <p className="food">{dishInOrder.dish.name + " × " + dishInOrder.quantity}</p>
+                                    {extras}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
                 {props.order.remark ?
