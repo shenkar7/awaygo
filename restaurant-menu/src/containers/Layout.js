@@ -46,9 +46,9 @@ const Layout = () => {
             setFoodCategories(res[1].data);
             setLoading(false);
         })
-        .catch(err => {
+        .catch(errors => {
             console.log("ERROR getting restaurant and foodCategories");
-            console.log(err);
+            console.log(errors);
             setLoading('error');
         })
     }, [id]);

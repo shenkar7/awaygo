@@ -1,16 +1,16 @@
 import './Menu.css';
 import React, {useContext} from 'react';
-import OrderContext from '../OrderContext';
+import OrdersPageContext from '../OrdersPageContext';
 import DishBlock from './DishBlock/DishBlock';
 
-const Menu = () => {
+const Menu = props => {
 
-    const foodCategories = useContext(OrderContext).foodCategories;
+    const foodCategories = useContext(OrdersPageContext).foodCategories;
 
     const categories = foodCategories.map(category => {
         const dishes = category.dishes.map(dish => 
             <div key={dish.name}>
-                <DishBlock dish={dish}/>
+                <DishBlock dish={dish} setOrder={props.setOrder}/>
             </div>
         )
 

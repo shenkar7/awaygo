@@ -124,6 +124,7 @@ const CustomerInfo = props => {
         if (allValid()){
             setStatus("loading");
             const orderWithIds = transformOrderToIds(order);
+            console.log(orderWithIds);
             axios.post('http://127.0.0.1:8000/order_add', orderWithIds)
             .then(res => {
                 console.log("SUCCESS adding order")

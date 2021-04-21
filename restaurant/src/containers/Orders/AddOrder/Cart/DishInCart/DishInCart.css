@@ -1,16 +1,22 @@
-.name-and-price {
+.dish-in-cart .name-and-price {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
+    align-items: center;
 }
 
-.delete {
+.dish-in-cart .name-and-price h4{
+    margin: 10px 0 10px 0;
+}
+
+.dish-in-cart .delete {
     text-align: left;
 }
 
-.delete i {
+.dish-in-cart .delete i {
     cursor: pointer;
 }
 
-.delete i:hover {
+.dish-in-cart .delete i:hover {
     color: gray;
 }

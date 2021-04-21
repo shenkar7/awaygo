@@ -2,6 +2,12 @@
     --maring-between: 10px;
 }
 
+.spinner-or-error {
+    text-align: center;
+    background-color: white;
+    padding: 80px;
+}
+
 .add-order-window  {
     display: flex;
     flex-direction: row-reverse;

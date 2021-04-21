@@ -186,7 +186,8 @@ def order_add(request):
         "city": request.data["city"],
         "street": request.data["street"],
         "number": request.data["number"],
-        "apartment": request.data["apartment"]
+        "apartment": request.data["apartment"],
+        "status": request.data["status"]
     }
 
     orderSerializer = OrderSerializer(data=order)
@@ -211,5 +212,3 @@ def order_add(request):
             return Response(dishInOrderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
     return Response(orderSerializer.data, status=status.HTTP_201_CREATED)
-
-    return Response(request.data)

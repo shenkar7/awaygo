@@ -28,12 +28,16 @@
 
 .cart-window .dishes-in-order {
     overflow-y: auto;
-    max-height: 450px;
-    padding-left: 5px;
+    max-height: 360px;
+    padding-right: 5px;
 }
 
 .cart-window .total-price{
     text-align: center;
+}
+
+.cart-window .total-price h4{
+  margin: 10px 0 10px 0;
 }
 
 .cart-window .submit-order {

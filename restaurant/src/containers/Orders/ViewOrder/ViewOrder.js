@@ -84,8 +84,6 @@ const ViewOrder = props => {
     if(props.order.apartment)
         apartment = " דירה " + String(props.order.apartment);
 
-    console.log(props.order);
-
     const content = (
         <div className="view-order-window">
             <div className="order-number"><b>#{props.order.id}</b></div>

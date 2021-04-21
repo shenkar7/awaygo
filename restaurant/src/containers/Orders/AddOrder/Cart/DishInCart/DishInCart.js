@@ -1,10 +1,6 @@
 import './DishInCart.css';
-import React, {useContext} from 'react';
-import OrderContext from '../../OrderContext';
 
 const DishInCart = props => {
-
-    const [order, setOrder] = useContext(OrderContext);
 
     let price = parseFloat(props.dishInCart.dish.price); 
     let extrasList = "";
@@ -19,13 +15,13 @@ const DishInCart = props => {
     }
 
     const cartDishRemoveHandler = () => {
-        const newOrder = {...order};
+        const newOrder = {...props.order};
         newOrder.dishes_in_order = newOrder.dishes_in_order.filter(dish => dish !== props.dishInCart);
-        setOrder(newOrder);
+        props.setOrder(newOrder);
     }
 
     const content = (
-        <div>
+        <div className="dish-in-cart">
             <div className="name-and-price">
                 <h4>{props.dishInCart.quantity + " × " + props.dishInCart.dish.name}</h4>
                 <p>₪{price * parseFloat(props.dishInCart.quantity)}</p>

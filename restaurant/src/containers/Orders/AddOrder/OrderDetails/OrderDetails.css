@@ -16,12 +16,17 @@
     flex: 1;
 }
 
+.order-details .invalid label {
+    font-weight: bold;
+    color: red;
+}
+
 
 .order-details input {
     background-color: #f1f8fe;
     border: 1px solid #bdcdd8;
     padding: 10px;
-    text-align: right;
+    direction: rtl;
 }
 
 .order-details input::placeholder {

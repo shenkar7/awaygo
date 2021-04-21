@@ -10,7 +10,7 @@ import AddOrder from './AddOrder/AddOrder';
 import ViewOrder from './ViewOrder/ViewOrder';
 import NewOrder from './NewOrder/NewOrder';
 import Spinner from '../../components/Spinner/Spinner';
-import OrderContext from './AddOrder/OrderContext';
+import OrdersPageContext from './AddOrder/OrdersPageContext';
 
 
 const Orders = props => {
@@ -125,7 +125,7 @@ const Orders = props => {
 
         //  delivered orders for history
         
-        const addOrder = <AddOrder customersList={customersList} restaurantId={restaurant.id}/>
+        const addOrder = <AddOrder customersList={customersList} restaurantId={restaurant.id} successClose={() => setAddOrderWindow(false)}/>
 
         const viewOrder = <ViewOrder order={viewOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setViewOrderWindow}/>
 
@@ -170,9 +170,9 @@ const Orders = props => {
     }
 
     return (
-        <OrderContext.Provider value={{customersList: customersList, foodCategories: foodCategories}}>
+        <OrdersPageContext.Provider value={{customersList: customersList, foodCategories: foodCategories}}>
             {content} 
-        </OrderContext.Provider>
+        </OrdersPageContext.Provider>
     );
 }
 
