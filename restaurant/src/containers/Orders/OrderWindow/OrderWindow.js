@@ -63,7 +63,7 @@ const OrderWindow = props => {
 
     return (
         <div className="order-window">
-            <div onClick={props.click}>
+            <div>
                 <div className="order-number-countdown">
                     <b>#{props.order.id}</b>
                     {props.order.status === 'process' ?
@@ -71,7 +71,7 @@ const OrderWindow = props => {
                         : null
                     }
                 </div>
-                <div className="order-details">
+                <div className="inside-window" onClick={props.click}>
                     <div className="name">{props.order.customer.first_name + " " + props.order.customer.last_name}</div>
                     <div className="address">{props.order.city}{props.order.street ? " " + props.order.street : null}{props.order.number ? " " + props.order.number : null}</div>
                     <hr/>

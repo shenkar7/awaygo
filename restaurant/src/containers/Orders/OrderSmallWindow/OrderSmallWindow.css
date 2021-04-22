@@ -3,7 +3,6 @@
     padding: 10px;
     margin-bottom: 10px;
     color: #626262;
-    cursor: pointer;
 }
 
 .order-small-window .order-number {
@@ -12,10 +11,11 @@
     font-size: 16px;
 }
 
-.order-small-window .order-details {
+.order-small-window .inside-window {
     background-color: white;
     border: 1px solid #00b3e3;
     padding: 11px;
+    cursor: pointer;
 }
 
 .order-small-window .name {

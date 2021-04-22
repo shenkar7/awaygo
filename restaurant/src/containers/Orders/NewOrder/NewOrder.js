@@ -73,7 +73,7 @@ const NewOrder = props => {
     const content = (
         <div className="new-order-window">
             <div className="order-number"><b>#{props.order.id}</b></div>
-            <div className="order-details">
+            <div className="inside-window">
                 <div className="name">{props.order.customer.first_name + " " + props.order.customer.last_name}</div>
                 <div className="address">{props.order.city + street + number + apartment}</div>
                 <hr/>

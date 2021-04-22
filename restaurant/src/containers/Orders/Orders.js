@@ -3,12 +3,13 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import OrderWindow from './OrderWindow/OrderWindow';
 import OrderSmallWindow from './OrderSmallWindow/OrderSmallWindow';
-import SearchDisplay from './SearchDisplay/SearchDisplay';
+import SubHeader from './SubHeader/SubHeader';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Modal from '../../components/Modal/Modal';
 import AddOrder from './AddOrder/AddOrder';
 import ViewOrder from './ViewOrder/ViewOrder';
 import NewOrder from './NewOrder/NewOrder';
+import MenuSiteClosure from './MenuSiteClosure/MenuSiteClosure';
 import Spinner from '../../components/Spinner/Spinner';
 import OrdersPageContext from './AddOrder/OrdersPageContext';
 
@@ -22,9 +23,19 @@ const Orders = props => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [shouldRefresh, setShouldRefresh] = useState(false);
     const [addOrderWindow, setAddOrderWindow] = useState(false);
     const [viewOrderWindow, setViewOrderWindow] = useState(false);
     const [newOrderWindow, setNewOrderWindow] = useState(false);
+    const [menuSiteClosureWindow, setMenuSiteClosureWindow] = useState(false);
+
+    const allModalClosed = () => {
+        return (!addOrderWindow && !viewOrderWindow && !newOrderWindow && !menuSiteClosureWindow);
+    }
+
+    if (shouldRefresh && allModalClosed()) {
+        window.location.reload();
+    }
 
     let newOrders = null;
     if (orders){
@@ -41,9 +52,24 @@ const Orders = props => {
 
         axios.all([getCustomers, getOrders, getRestaurant])
             .then((responses) => {
+                console.log("SUCCESS getting customers, orders and restaurant");
+                
                 setCustomersList(responses[0].data);
                 setOrders(responses[1].data);
                 setRestaurant(responses[2].data)
+
+                axios.get('http://127.0.0.1:8000/foodcategories/' + responses[2].data.id + '/')
+                    .then((res) => {
+                        console.log("SUCCESS getting foodcategories");
+                        setFoodCategories(res.data);
+                        setLoading(false);
+                    })
+                    .catch((err) => {
+                        console.log("ERROR getting foodcategories");
+                        console.log(err.message);
+                        setError(err);
+                    })
+                
             })
             .catch((errors) => {
                 console.log("ERROR getting customers, orders and my_restaurant");
@@ -53,21 +79,31 @@ const Orders = props => {
     }, []);
 
     useEffect(() => {
-        if (restaurant) {
-            axios.get('http://127.0.0.1:8000/foodcategories/' + restaurant.id + '/')
-                .then((res) => {
-                    setFoodCategories(res.data)
-                })
-                .catch((err) => {
-                    console.log("ERROR getting foodcategories");
-                    console.log(err.message);
-                    setError(err);
-                })
-                .then(() => {
-                    setLoading(false);
-                })
+        const dbOrdersChanged = (newOrders) => {
+            if (newOrders.length !== orders.length) 
+                return true;
+            else
+                return false;
         }
-    }, [restaurant]);
+
+        if(!loading && !error){
+            const interval = setInterval(() => {
+                axios.get("http://127.0.0.1:8000/orders")
+                .then(res => {
+                    console.log("SUCCESS getting orders");
+                    if(dbOrdersChanged(res.data)){
+                        clearInterval(interval);
+                        setShouldRefresh(true);
+                    }
+                })
+                .catch(err => {
+                    console.log("Error getting orders");
+                    console.log(err.message);
+                })
+                
+            }, 30000);
+        }
+    }, [loading, error]);
 
     const orderUpdateHandler = newOrder => {
         const newOrders = [...orders];
@@ -131,16 +167,23 @@ const Orders = props => {
 
         const newOrder = <NewOrder order={newOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setNewOrderWindow}/>
 
+        const menuSiteClosure = <MenuSiteClosure/>
+
         content = (
             <React.Fragment>
 
                 {viewOrderWindow ? <Modal content={viewOrder} modalClick={() => setViewOrderWindow(false)}/> : null}
                 {addOrderWindow ? <Modal content={addOrder} modalClick={() => setAddOrderWindow(false)}/> : null}
                 {newOrderWindow ? <Modal content={newOrder}/> : null}
+                {addOrderWindow ? <Modal content={addOrder} modalClick={() => setAddOrderWindow(false)}/> : null}
+                {menuSiteClosureWindow ? <Modal content={menuSiteClosure} modalClick={() => setMenuSiteClosureWindow(false)}/> : null}
 
                 <PageHeader/>
                 <main>
-                    <SearchDisplay addOrderHandler={() => setAddOrderWindow(true)}/>
+                    <SubHeader
+                        addOrderHandler={() => setAddOrderWindow(true)}
+                        menuSiteClosureHandler={() => setMenuSiteClosureWindow(true)}
+                    />
                     <div className="all-orders-window">
                         <div className="columns-titles">
                             <h3>נאסף</h3>

@@ -3,7 +3,6 @@
     padding: 10px;
     margin-bottom: 10px;
     color: #626262;
-    cursor: pointer;
 }
 
 .order-window .order-number-countdown {
@@ -14,39 +13,40 @@
     font-size: 25px;
 }
 
-.order-window .order-details {
+.order-window .inside-window {
     background-color: white;
     border: 1px solid #00b3e3;
     padding: 13px;
+    cursor: pointer;
 }
 
-.order-window .name {
+.order-window .inside-window .name {
     font-size: 14px;
     font-weight: bold;
 }
 
-.order-window .address {
+.order-window .inside-window .address {
     font-size: 13px;
 }
 
-.order-window .food-section, .order-window .remark-section {
+.order-window .inside-window .food-section, .order-window .inside-window .remark-section {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
 }
 
-.order-window .food-section .fa-hamburger,
-.order-window .remark-section .fa-exclamation-triangle {
+.order-window .inside-window .food-section .fa-hamburger,
+.order-window .inside-window .remark-section .fa-exclamation-triangle {
     color: black;
     font-size: 18px;
     margin-left: 12px;
 }
 
-.order-window .food {
+.order-window .inside-window .food-section .food {
     font-size: 10px;
 }
 
-.order-window .remark {
+.order-window .inside-window .remark-section .remark {
     font-size: 10px;
     font-weight: bold;
 }
@@ -54,10 +54,10 @@
 .order-window .next-button {
     text-align: left;
     z-index: 100;
+    margin-top: 10px;
 }
 
 .order-window .next-button button {
-    margin-top: 10px;
     cursor: pointer;
     background-color: green;
     border: none;

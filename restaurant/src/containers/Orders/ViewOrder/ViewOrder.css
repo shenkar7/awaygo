@@ -12,50 +12,50 @@
     font-size: 25px;
 }
 
-.view-order-window .order-details {
+.view-order-window .inside-window {
     background-color: white;
     border: 1px solid #00b3e3;
     padding: 13px;
 }
 
-.view-order-window .name {
+.view-order-window .inside-window .name {
     font-size: 14px;
     font-weight: bold;
 }
 
-.view-order-window .address {
+.view-order-window .inside-window .address {
     font-size: 13px;
 }
 
-.view-order-window .food-section, .view-order-window .remark-section {
+.view-order-window .inside-window .food-section, .view-order-window .inside-window .remark-section {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
 }
 
-.view-order-window .food-section .fa-hamburger,
-.view-order-window .remark-section .fa-exclamation-triangle {
+.view-order-window .inside-window .food-section .fa-hamburger,
+.view-order-window .inside-window .remark-section .fa-exclamation-triangle {
     color: black;
     font-size: 18px;
     margin-left: 12px;
 }
 
-.view-order-window .food {
+.view-order-window .inside-window .food-section .food {
     font-size: 10px;
 }
 
-.view-order-window .remark {
+.view-order-window .inside-window .remark-section .remark {
     font-size: 10px;
     font-weight: bold;
 }
 
 .view-order-window .back-button {
     text-align: left;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .view-order-window .back-button button {
-    margin-top: 10px;
-    cursor: pointer;
     background-color: red;
     border: none;
     color: white;

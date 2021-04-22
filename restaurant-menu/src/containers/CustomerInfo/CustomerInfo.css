@@ -73,3 +73,8 @@
     margin-top: 10px;
     color: red;
 }
+
+.spinner-and-error {
+    margin-top: 40px;
+    text-align: center;
+}

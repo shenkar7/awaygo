@@ -84,7 +84,7 @@ const AddOrder = props => {
             setStatus('loading');
             const orderWithIds = transformOrderToIds(order);
             orderWithIds.status = "process";
-            console.log(orderWithIds);
+            orderWithIds.date_time = new Date(Date.now() + timing * 60 * 1000);
             const csrftoken = getCookie('csrftoken');
             axios.post('http://127.0.0.1:8000/order_add',
                 orderWithIds,

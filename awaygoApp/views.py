@@ -179,6 +179,7 @@ def order_add(request):
 
     
     # create order with the customer
+
     order = {
         "restaurant": request.data["restaurant"],
         "remark": request.data["remark"],
@@ -187,8 +188,13 @@ def order_add(request):
         "street": request.data["street"],
         "number": request.data["number"],
         "apartment": request.data["apartment"],
-        "status": request.data["status"]
     }
+
+    if "status" in request.data.keys():
+        order["status"] = request.data["status"]
+
+    if "date_time" in request.data.keys():
+        order["date_time"] = request.data["date_time"]
 
     orderSerializer = OrderSerializer(data=order)
     if orderSerializer.is_valid():

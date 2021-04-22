@@ -12,39 +12,39 @@
     font-size: 25px;
 }
 
-.new-order-window .order-details {
+.new-order-window .inside-window {
     background-color: white;
     border: 1px solid #00b3e3;
     padding: 13px;
 }
 
-.new-order-window .name {
+.new-order-window .inside-window .name {
     font-size: 14px;
     font-weight: bold;
 }
 
-.new-order-window .address {
+.new-order-window .inside-window .address {
     font-size: 13px;
 }
 
-.new-order-window .food-section, .new-order-window .remark-section {
+.new-order-window .inside-window .food-section, .new-order-window .inside-window .remark-section {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
 }
 
-.new-order-window .food-section .fa-hamburger,
-.new-order-window .remark-section .fa-exclamation-triangle {
+.new-order-window .inside-window .food-section .fa-hamburger,
+.new-order-window .inside-window .remark-section .fa-exclamation-triangle {
     color: black;
     font-size: 18px;
     margin-left: 12px;
 }
 
-.new-order-window .food {
+.new-order-window .inside-window .food-section .food {
     font-size: 10px;
 }
 
-.new-order-window .remark {
+.new-order-window .inside-window .remark-section .remark {
     font-size: 10px;
     font-weight: bold;
 }

@@ -124,7 +124,6 @@ const CustomerInfo = props => {
         if (allValid()){
             setStatus("loading");
             const orderWithIds = transformOrderToIds(order);
-            console.log(orderWithIds);
             axios.post('http://127.0.0.1:8000/order_add', orderWithIds)
             .then(res => {
                 console.log("SUCCESS adding order")
@@ -133,7 +132,7 @@ const CustomerInfo = props => {
             .catch(err => {
                 console.log("ERROR posting order");
                 console.log(err.message);
-                setStatus("error adding order");
+                setStatus("error");
             })
         }
         else{
@@ -256,9 +255,17 @@ const CustomerInfo = props => {
         );
     }
     else if(status === "loading")
-        content = <Spinner />
+        content = (
+            <div className="spinner-and-error">
+                <Spinner/>
+            </div>
+        );
     else if(status === "error")
-        content = <p>שגיאת תקשורת, נא לנסות מאוחר יותר</p>
+        content = (
+            <div className="spinner-and-error">
+                <p>שגיאת תקשורת, נא לנסות מאוחר יותר</p>
+            </div>
+        );
 
     return content;
 }
