@@ -8,6 +8,22 @@ header {
     z-index: 100;
 }
 
+.layout > .loading {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.layout > .error {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.layout .menu_close {
+    margin-top: 80px;
+    text-align: center;
+}
+
 .main {
     text-align: right;
     direction: rtl;

@@ -7,14 +7,14 @@ import {getCookie} from '../../../assets/functions';
 
 const OrderWindow = props => {
 
-    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState(null);
 
     const nextButtonHandler = () => {
         const newOrder = {...props.order};
         newOrder.status = 'ready';
         newOrder.customer = newOrder.customer.id;
 
-        setLoading(true);
+        setStatus('loading');
         const csrftoken = getCookie('csrftoken');
 
         axios.put('http://127.0.0.1:8000/order/' + newOrder.id + '/',
@@ -25,27 +25,23 @@ const OrderWindow = props => {
         )
         .then(res => {
             console.log('SUCCESS updating the order');
-            setLoading(false);
+            newOrder.customer = props.order.customer;
+            props.orderUpdateHandler(newOrder);
+            setStatus(null);
         })
         .catch(err => {
-            setLoading('error');
+            setStatus('error');
             console.log('ERROR updating the order');
             console.log(err.message);
-        })
-        .then(() => {
-            if(!loading){
-                newOrder.customer = props.order.customer;
-                props.orderUpdateHandler(newOrder);
-            }
         })
     }
 
     let nextButton = null;
     if(props.order.status === "process"){
-        if(loading === true){
+        if(status === 'loading'){
             nextButton = <span className='spinner'><Spinner/></span>;
         }
-        else if(loading === 'error'){
+        else if(status === 'error'){
             nextButton = (
                 <div class="next-button">
                     שגיאת תקשורת

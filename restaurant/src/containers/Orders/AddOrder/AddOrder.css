@@ -8,6 +8,10 @@
     padding: 80px;
 }
 
+.spinner-or-error .loader:before {
+    background: gray;
+}
+
 .add-order-window  {
     display: flex;
     flex-direction: row-reverse;

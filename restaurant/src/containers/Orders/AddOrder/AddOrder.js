@@ -142,7 +142,7 @@ const AddOrder = props => {
     }
     else {
         content = (
-            <div>
+            <React.Fragment>
                 <div className="add-order-window">
                     <div className="customer-and-menu">
                         <OrderDetails
@@ -161,7 +161,7 @@ const AddOrder = props => {
                     </div>
                 </div>
                 <TimingOrder timingButtonHandler={submitHandler} invalid={invalid}/>
-            </div>
+            </React.Fragment>
         );
     }
 

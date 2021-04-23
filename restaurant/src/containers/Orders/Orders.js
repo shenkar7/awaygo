@@ -214,7 +214,7 @@ const Orders = props => {
 
     return (
         <OrdersPageContext.Provider value={{customersList: customersList, foodCategories: foodCategories}}>
-            {content} 
+            {content}
         </OrdersPageContext.Provider>
     );
 }

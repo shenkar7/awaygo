@@ -14,7 +14,7 @@ const Layout = () => {
     const params = new URLSearchParams(document.location.search.substring(1));
     id = params.get('id');
 
-    const [loading, setLoading] = useState(true);
+    const [status, setStatus] = useState('loading');
     const [restaurant, setRestaurant] = useState(null);
     const [foodCategories, setFoodCategories] = useState(null);
     const [page, setPage] = useState({page: "menu", info: null});
@@ -43,24 +43,43 @@ const Layout = () => {
         axios.all([getRestaurant, getFoodCategories])
         .then(res => {
             setRestaurant(res[0].data);
-            setFoodCategories(res[1].data);
-            setLoading(false);
+            if(res[0].data.menu_open){
+                setFoodCategories(res[1].data);
+                setStatus(null);
+            }
+            else
+                setStatus("menu_close");
         })
         .catch(errors => {
             console.log("ERROR getting restaurant and foodCategories");
             console.log(errors);
-            setLoading('error');
+            setStatus('error');
         })
     }, [id]);
 
 
     let content;
 
-    if (loading === true){
-        content = <div><Spinner/></div>
+    if (status === 'loading'){
+        content = (
+            <main className='loading'>
+                <Spinner/>
+            </main>
+        );
     }
-    else if(loading === "error"){
-        content = <div>שגיאת תקשורת</div>
+    else if(status === "error"){
+        console.log("status is error!")
+        content = <div className="error">שגיאת תקשורת</div>
+    }
+    else if(status === "menu_close"){
+        content = (
+            <React.Fragment>
+                <div className="restaurant-back-img">
+                    <img alt="pic" src={"http://127.0.0.1:8000" + restaurant.background_img}/>
+                </div>
+                <div className="menu_close">המסעדה סגורה כרגע להזמנות</div>
+            </React.Fragment>
+        );
     }
     else {
         let main = null;
@@ -78,10 +97,7 @@ const Layout = () => {
             );
 
         content = (
-            <div>
-                <header>
-                    <img src={logoImg} alt="logo"/>
-                </header>
+            <React.Fragment>
                 <div className="restaurant-back-img">
                     <img alt="pic" src={"http://127.0.0.1:8000" + restaurant.background_img}/>
                 </div>
@@ -90,13 +106,18 @@ const Layout = () => {
                     <p>{restaurant.freetext}</p>
                     {main}
                 </main>
-            </div>
+            </React.Fragment>
         ) 
     }
-
+    
     return (
         <OrderContext.Provider value={[order, setOrder]}>
-            {content}
+            <div className="layout">
+                <header>
+                    <img src={logoImg} alt="logo"/>
+                </header>
+                {content}
+            </div>
         </OrderContext.Provider>
     );
 }

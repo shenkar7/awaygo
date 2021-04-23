@@ -50,8 +50,11 @@
 }
 
 .view-order-window .back-button {
-    text-align: left;
     margin-top: 10px;
+    text-align: left;
+}
+
+.view-order-window .back-button button {
     cursor: pointer;
 }
 
@@ -66,6 +69,6 @@
     background-color: rgb(194, 0, 0);
 }
 
-.order-window .spinner {
-    font-size: 2px;
+.view-order-window .spinner {
+    font-size: 3px;
 }
