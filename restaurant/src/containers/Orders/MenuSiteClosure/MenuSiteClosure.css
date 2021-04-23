@@ -1,4 +1,22 @@
 .menu-site-closure {
     background-color: white;
     padding: 30px;
+    box-sizing: border-box;
+    width: 430px;
+    height: 200px;
+}
+
+.menu-site-closure .loading-and-error {
+    display: flex;
+    justify-content: center;
+}
+
+.menu-site-closure .loading-and-error .loader{
+    background-color: gray;
+    width: 40px;
+    height: 40px;
+}
+
+.menu-site-closure .loading-and-error .loader:after{
+    background: white;
 }

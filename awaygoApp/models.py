@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=200, unique=True)
     freetext = models.TextField(blank=True, null=True)
     background_img = models.ImageField(upload_to='restaurants/', blank=True, null=True)
+    menu_open = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

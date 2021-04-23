@@ -3,11 +3,13 @@ import './ToggleSwitch.css';
 const ToggleSwitch = props => {
 
     return (
-        <div class="switch">
-            <input type="checkbox"/>
-            <span class="slider"></span>
-        </div>
+        <label className="switch">
+            <input type="checkbox" checked={props.checked} onChange={props.toggleHandler}/>
+            <span className="slider"></span>
+        </label>
     );
 }
 
 export default ToggleSwitch;
+
+//  

@@ -52,11 +52,25 @@ def logoutUser(request):
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def my_restaurant(request):
-    restaurant = request.user.restaurant
-    serializer = RestaurantSerializer(restaurant)
-    return Response(serializer.data)
+    try:
+        restaurant = request.user.restaurant
+    except Restaurant.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = RestaurantSerializer(restaurant)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        print(request.data)
+        serializer = RestaurantSerializer(restaurant, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])

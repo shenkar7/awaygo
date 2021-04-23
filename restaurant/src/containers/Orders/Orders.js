@@ -167,7 +167,7 @@ const Orders = props => {
 
         const newOrder = <NewOrder order={newOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setNewOrderWindow}/>
 
-        const menuSiteClosure = <MenuSiteClosure/>
+        const menuSiteClosure = <MenuSiteClosure restaurant={restaurant} setRestaurant={setRestaurant}/>
 
         content = (
             <React.Fragment>
