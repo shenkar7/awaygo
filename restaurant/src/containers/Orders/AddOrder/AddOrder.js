@@ -69,25 +69,45 @@ const AddOrder = props => {
         return true;
     }
 
-    const transformOrderToIds = order => {
-        order.dishes_in_order.forEach(dishInOrder => {
-            dishInOrder.dish = dishInOrder.dish.id;
-            for(let i=0; i < dishInOrder.extras.length; i++) {
-                dishInOrder.extras[i] = dishInOrder.extras[i].id;
+    const createNewOrderWithIds = () => {
+        console.log("inside createNewOrderWithIds");
+        
+        const newOrder = {
+            ...order,
+            dishes_in_order: [...order.dishes_in_order]
+        };
+
+        for(let i = 0; i < order.dishes_in_order.length; i++){
+            newOrder.dishes_in_order[i] = {
+                ...order.dishes_in_order[i],
+                dish: order.dishes_in_order[i].dish.id,
+                extras: [...order.dishes_in_order[i].extras],
             }
-        });
-        return order;
+            for(let j=0; j < order.dishes_in_order[i].extras.length; j++) {
+                newOrder.dishes_in_order[i].extras[j] = order.dishes_in_order[i].extras[j].id;
+            }
+        }
+        
+        return(newOrder);
     }
 
     const submitHandler = (timing) => {
         if (allValid()){
             setStatus('loading');
-            const orderWithIds = transformOrderToIds(order);
-            orderWithIds.status = "process";
-            orderWithIds.date_time = new Date(Date.now() + timing * 60 * 1000);
+            console.log("inSubmitHandler");
+
+            const newOrder = createNewOrderWithIds();
+            newOrder.status = "process";
+            newOrder.date_time = new Date(Date.now() + timing * 60 * 1000);
+
+            console.log("order");
+            console.log(order.dishes_in_order);
+            console.log("newOrder");
+            console.log(newOrder.dishes_in_order);
+
             const csrftoken = getCookie('csrftoken');
             axios.post('http://127.0.0.1:8000/order_add',
-                orderWithIds,
+                newOrder,
                 {
                     headers: {'X-CSRFTOKEN': csrftoken,},
                 },

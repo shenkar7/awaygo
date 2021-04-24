@@ -68,7 +68,6 @@ const Layout = () => {
         );
     }
     else if(status === "error"){
-        console.log("status is error!")
         content = <div className="error">שגיאת תקשורת</div>
     }
     else if(status === "menu_close"){

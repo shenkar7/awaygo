@@ -80,7 +80,7 @@ const NewOrder = props => {
                     <div className="food-section">
                         <i className="fas fa-hamburger"></i>
                         <div>
-                            {props.order.dishesinorder.slice(0, 2).map(dishInOrder => {
+                            {props.order.dishesinorder.map(dishInOrder => {
                                 let extras = [];
                                 for (let i = 0; i < dishInOrder.extras.length; i++) {
                                     if (i < dishInOrder.extras.length - 1)
@@ -88,10 +88,14 @@ const NewOrder = props => {
                                     else
                                         extras.push(dishInOrder.extras[i].name);
                                 }
+                                let remark = null;
+                                if (dishInOrder.remark)
+                                    remark = <p className="food">{dishInOrder.remark}{" "}<i className="fas fa-exclamation-triangle"></i></p>
                                 return (
                                     <div key={Math.random()}>
-                                        <p className="food">{dishInOrder.dish.name + " × " + dishInOrder.quantity}</p>
-                                        {extras}
+                                        {dishInOrder.dish.name + " × " + dishInOrder.quantity}
+                                        <p className="food">{extras}</p>
+                                        {remark}
                                     </div>
                                 );
                             })}

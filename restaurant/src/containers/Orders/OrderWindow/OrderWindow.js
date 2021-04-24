@@ -69,7 +69,7 @@ const OrderWindow = props => {
                 </div>
                 <div className="inside-window" onClick={props.click}>
                     <div className="name">{props.order.customer.first_name + " " + props.order.customer.last_name}</div>
-                    <div className="address">{props.order.city}{props.order.street ? " " + props.order.street : null}{props.order.number ? " " + props.order.number : null}</div>
+                    <div className="address">{props.order.city + " " + props.order.street + " " + props.order.number}</div>
                     <hr/>
                     <div className="food-section">
                         <i className="fas fa-hamburger"></i>

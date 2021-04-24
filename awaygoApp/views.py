@@ -218,6 +218,7 @@ def order_add(request):
         print("New order not valid")
         return Response(orderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    print(request.data["dishes_in_order"])
     # create multiple dishes in order
     for dishInOrder in request.data["dishes_in_order"]:
         newDishInOrder = dishInOrder.copy()
@@ -229,6 +230,7 @@ def order_add(request):
             print("Dish in order saved")
         else:
             print("Dish in order not valid")
+            print(dishInOrderSerializer.errors)
             return Response(dishInOrderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
     return Response(orderSerializer.data, status=status.HTTP_201_CREATED)
