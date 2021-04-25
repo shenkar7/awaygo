@@ -16,4 +16,5 @@ urlpatterns = [
     path('foodcategories/<int:restaurant_pk>/', views.foodCategories_list),     ### in use
     # path('dishesinorder/<int:order_pk>/', views.dishes_in_order),
     path('order_add', views.order_add),    ### in use
+    path('dishes_visibility', views.dishes_visibility),
 ]

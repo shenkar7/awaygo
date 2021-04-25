@@ -10,21 +10,26 @@ const Menu = props => {
     const [dishDetailsWindow, setDishDetailsWindow] = useState(null);
 
     const categories = props.foodCategories.map(category => {
-            const dishes = category.dishes.map(dish =>
-                <div className="dish" key={dish.name} onClick={() => dishClickHandler(dish)}>
-                    <div>
-                        <h4>{dish.name}</h4>
-                        <p>{dish.description}</p>
-                        <p>₪{dish.price}</p>
-                    </div>
-                    <div className="dish-image">
-                        {dish.img ?
-                        <img alt="dish" src={"http://127.0.0.1:8000" + dish.img}/>
-                        : null}
-                    </div>
-                    
-                </div>
-            );
+            const dishes = category.dishes.map(dish => {
+                if (dish.visible){
+                    return (
+                        <div className="dish" key={dish.name} onClick={() => dishClickHandler(dish)}>
+                            <div>
+                                <h4>{dish.name}</h4>
+                                <p>{dish.description}</p>
+                                <p>₪{dish.price}</p>
+                            </div>
+                            <div className="dish-image">
+                                {dish.img ?
+                                <img alt="dish" src={"http://127.0.0.1:8000" + dish.img}/>
+                                : null}
+                            </div>
+                        </div>
+                    );
+                }
+                else
+                    return null
+            });
 
             return (
                 <div className="category" key={category.name}>

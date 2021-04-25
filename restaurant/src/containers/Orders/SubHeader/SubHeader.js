@@ -26,7 +26,7 @@ const SubHeader = props => {
                     השבתת אתר התפריט
                 </span>
                 <span className="separator">|</span>
-                <span className="navigation-button">
+                <span className="navigation-button" onClick={props.dishesVisibilityHandler}>
                     <i class="fas fa-eye-slash"></i>
                     הסתרת/הצגת מנות
                 </span>

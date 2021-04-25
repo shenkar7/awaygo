@@ -97,6 +97,22 @@ def dishes_list(request):
     serializer = DishSerializer(dishes, many=True)
     return Response(serializer.data)
 
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['restaurant'])
+@api_view(['PUT'])
+def dish_details(request, pk):
+    try:
+        dish = Dish.objects.get(pk=pk)
+    except Dish.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = DishSerializer(dish, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def foodCategories_list(request, restaurant_pk):
     foodCategories = FoodCategory.objects.filter(restaurant=Restaurant.objects.get(id=restaurant_pk))
@@ -126,6 +142,30 @@ def order_detail(request, order_pk):
             return Response(serializer.data)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@login_required(login_url='loginPage')
+@allowed_users(allowed_roles=['restaurant'])
+@api_view(['PUT'])
+def dishes_visibility(request):
+    
+    dishesVisibilityTable = {}
+
+    try: 
+        for category in request.data:
+            for dish in category['dishes']:
+                dishesVisibilityTable[dish['id']] = dish['visible']
+        
+        for category in FoodCategory.objects.filter(restaurant=request.user.restaurant):
+            for dish in category.dish_set.all():
+                if dish.visible != dishesVisibilityTable[dish.id]:
+                    dish.visible = dishesVisibilityTable[dish.id]
+                    dish.save()
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(request.data, status=status.HTTP_202_ACCEPTED)
+
 
 @api_view(['POST'])
 def order_add(request):

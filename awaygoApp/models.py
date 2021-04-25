@@ -46,6 +46,7 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='dishes/', blank=True, null=True)
+    visible = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Dishes"

@@ -10,6 +10,7 @@ import AddOrder from './AddOrder/AddOrder';
 import ViewOrder from './ViewOrder/ViewOrder';
 import NewOrder from './NewOrder/NewOrder';
 import MenuSiteClosure from './MenuSiteClosure/MenuSiteClosure';
+import DishesVisibility from './DishesVisibility/DishesVisibility';
 import Spinner from '../../components/Spinner/Spinner';
 import OrdersPageContext from './AddOrder/OrdersPageContext';
 
@@ -28,9 +29,10 @@ const Orders = props => {
     const [viewOrderWindow, setViewOrderWindow] = useState(false);
     const [newOrderWindow, setNewOrderWindow] = useState(false);
     const [menuSiteClosureWindow, setMenuSiteClosureWindow] = useState(false);
+    const [dishesVisibilityWindow, setDishesVisibilityWindow] = useState(false);
 
     const allModalClosed = () => {
-        return (!addOrderWindow && !viewOrderWindow && !newOrderWindow && !menuSiteClosureWindow);
+        return (!addOrderWindow && !viewOrderWindow && !newOrderWindow && !menuSiteClosureWindow && !dishesVisibilityWindow);
     }
 
     if (shouldRefresh && allModalClosed()) {
@@ -169,6 +171,8 @@ const Orders = props => {
 
         const menuSiteClosure = <MenuSiteClosure restaurant={restaurant} setRestaurant={setRestaurant}/>
 
+        const dishesVisibility = <DishesVisibility foodCategories={foodCategories} setFoodCategories={setFoodCategories} modalClose={setDishesVisibilityWindow}/>;
+
         content = (
             <React.Fragment>
 
@@ -177,12 +181,14 @@ const Orders = props => {
                 {newOrderWindow ? <Modal content={newOrder}/> : null}
                 {addOrderWindow ? <Modal content={addOrder} modalClick={() => setAddOrderWindow(false)}/> : null}
                 {menuSiteClosureWindow ? <Modal content={menuSiteClosure} modalClick={() => setMenuSiteClosureWindow(false)}/> : null}
+                {dishesVisibilityWindow ? <Modal content={dishesVisibility} modalClick={() => setDishesVisibilityWindow(false)}/> : null}
 
                 <PageHeader/>
                 <main>
                     <SubHeader
                         addOrderHandler={() => setAddOrderWindow(true)}
                         menuSiteClosureHandler={() => setMenuSiteClosureWindow(true)}
+                        dishesVisibilityHandler={() => setDishesVisibilityWindow(true)}
                     />
                     <div className="all-orders-window">
                         <div className="columns-titles">

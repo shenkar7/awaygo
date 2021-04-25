@@ -29,7 +29,7 @@ class FullDishSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Dish
-        fields = ['id','name', 'description', 'price', 'extraCategories', 'img']
+        fields = ['id','name', 'description', 'price', 'extraCategories', 'img', 'visible']
 
 class FoodCategorySerializer(serializers.ModelSerializer):
     dishes = FullDishSerializer(source='dish_set', many=True, read_only=True)
@@ -42,6 +42,7 @@ class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
         fields = '__all__'
+        read_only_fields = ['img']
 
 class DishInOrderSerializer(serializers.ModelSerializer):
     class Meta:

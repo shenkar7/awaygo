@@ -8,11 +8,17 @@ const Menu = props => {
     const foodCategories = useContext(OrdersPageContext).foodCategories;
 
     const categories = foodCategories.map(category => {
-        const dishes = category.dishes.map(dish => 
-            <div key={dish.name}>
-                <DishBlock dish={dish} setOrder={props.setOrder}/>
-            </div>
-        )
+        const dishes = category.dishes.map(dish => {
+            if (dish.visible){
+                return (
+                    <div key={dish.name}>
+                        <DishBlock dish={dish} setOrder={props.setOrder}/>
+                    </div>
+                );
+            }
+            else    
+                return null;
+        });
 
         return (
             <div key={category.name}>
