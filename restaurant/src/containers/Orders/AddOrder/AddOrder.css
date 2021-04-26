@@ -12,12 +12,18 @@
     background: gray;
 }
 
-.add-order-window  {
+.add-order-window {
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-and-details  {
     display: flex;
     flex-direction: row-reverse;
-    width: 1300px;
-    height: 500px;
-    background-color: white;
+    height: 550px;
 }
 
 .add-order-window h2, .add-order-window h3 {
@@ -26,10 +32,9 @@
     margin-top: 7px;
 }
 
-.add-order-window .customer-and-menu {
+.add-order-window .cart-and-details .customer-and-menu {
     flex-grow: 1;
-    padding: 25px;
-    height: 100%;
+    padding: 25px 10px 25px 25px;
     box-sizing: border-box;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -55,11 +60,6 @@
   }
 
 
-.cart {
-    width: 400px;
-    padding: 10px;
-}
-
 .make-order {
     background-color: orange;
     text-align: center;
@@ -79,4 +79,16 @@
 
 .make-order:hover {
     background-color: rgb(211, 137, 0);
+}
+
+@media only screen and (max-width : 835px) {
+    .add-order-window .cart-and-details .customer-and-menu {
+      width: 70%;
+    }
+}
+
+@media only screen and (min-height : 1000px) {
+    .cart-and-details {
+      height: 800px
+    }
 }

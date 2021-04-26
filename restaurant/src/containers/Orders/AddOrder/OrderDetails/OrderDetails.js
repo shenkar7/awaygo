@@ -119,93 +119,101 @@ const OrderDetails = props => {
             <form>
                 <h2>פרטי לקוח</h2>
                 <div className="customer-details">
-                    <div className={props.validFields.phone_number ? "order-input" : "order-input invalid"}>
-                        <label>טלפון *</label>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="טלפון"
-                            value={props.order.customer.phone_number}
-                            onChange={event => onChangeHandler(event, "phone_number")}
-                        />
+                    <div className="input-couple">
+                        <div className={props.validFields.phone_number ? "order-input" : "order-input invalid"}>
+                            <label>טלפון *</label>
+                            <br/>
+                            <input
+                                type="text"
+                                placeholder="טלפון"
+                                value={props.order.customer.phone_number}
+                                onChange={event => onChangeHandler(event, "phone_number")}
+                            />
+                        </div>
+                        <div className="order-input">
+                            <label>אימייל</label>
+                            <br/>
+                            <input
+                                type="email"
+                                placeholder="אימייל"
+                                value={props.order.customer.email}
+                                onChange={event => onChangeHandler(event, "email")}
+                            />
+                        </div>
                     </div>
-                    <div className="order-input">
-                        <label>אימייל</label>
-                        <br/>
-                        <input
-                            type="email"
-                            placeholder="אימייל"
-                            value={props.order.customer.email}
-                            onChange={event => onChangeHandler(event, "email")}
-                        />
-                    </div>
-                    <div className={props.validFields.first_name ? "order-input" : "order-input invalid"}>
-                        <label>שם פרטי *</label>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="שם פרטי"
-                            value={props.order.customer.first_name}
-                            onChange={event => onChangeHandler(event, "first_name")}
-                        />
-                    </div>
-                    <div className={props.validFields.last_name ? "order-input" : "order-input invalid"}>
-                        <label>שם משפחה *</label>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="שם משפחה"
-                            value={props.order.customer.last_name}
-                            onChange={event => onChangeHandler(event, "last_name")}
-                        />
+                    <div className="input-couple">
+                        <div className={props.validFields.first_name ? "order-input" : "order-input invalid"}>
+                            <label>שם פרטי *</label>
+                            <br/>
+                            <input
+                                type="text"
+                                placeholder="שם פרטי"
+                                value={props.order.customer.first_name}
+                                onChange={event => onChangeHandler(event, "first_name")}
+                            />
+                        </div>
+                        <div className={props.validFields.last_name ? "order-input" : "order-input invalid"}>
+                            <label>שם משפחה *</label>
+                            <br/>
+                            <input
+                                type="text"
+                                placeholder="שם משפחה"
+                                value={props.order.customer.last_name}
+                                onChange={event => onChangeHandler(event, "last_name")}
+                            />
+                        </div>
                     </div>
                 </div>
 
                 <h2>כתובת</h2>
                 <div className="address-details">
-                    <div className={props.validFields.city ? "order-input" : "order-input invalid"}>
-                        <label>עיר *</label>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="עיר"
-                            value={props.order.city}
-                            onChange={event => onChangeHandler(event, "city")}
-                        />
+                    <div className="input-couple">
+                        <div className={props.validFields.city ? "order-input" : "order-input invalid"}>
+                            <label>עיר *</label>
+                            <br/>
+                            <input
+                                type="text"
+                                placeholder="עיר"
+                                value={props.order.city}
+                                onChange={event => onChangeHandler(event, "city")}
+                            />
+                        </div>
+                        <div className={props.validFields.street ? "order-input" : "order-input invalid"}>
+                            <label>רחוב *</label>
+                            <br/>
+                            <input
+                                type="text"
+                                placeholder="רחוב"
+                                value={props.order.street}
+                                onChange={event => onChangeHandler(event, "street")}
+                            />
+                        </div>
                     </div>
-                    <div className={props.validFields.street ? "order-input" : "order-input invalid"}>
-                        <label>רחוב *</label>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="רחוב"
-                            value={props.order.street}
-                            onChange={event => onChangeHandler(event, "street")}
-                        />
-                    </div>
-                    <div className={props.validFields.number ? "order-input" : "order-input invalid"}>
-                        <label>מספר בית *</label>
-                        <br/>
-                        <input
-                            type="number"
-                            placeholder="מספר בית"
-                            min="1"
-                            step="1"
-                            value={props.order.number}
-                            onChange={event => onChangeHandler(event, "number")}
-                        />
-                    </div>
-                    <div className="order-input">
-                        <label>מספר דירה</label>
-                        <br/>
-                        <input
-                            type="number"
-                            placeholder="מספר דירה"
-                            min="1"
-                            step="1"
-                            value={props.order.apartment}
-                            onChange={event => onChangeHandler(event, "apartment")}
-                        />
+                    <div className="input-couple">
+                        <div className={props.validFields.number ? "order-input" : "order-input invalid"}>
+                            <label>מספר בית *</label>
+                            <br/>
+                            <input
+                                type="number"
+                                placeholder="מספר בית"
+                                min="1"
+                                step="1"
+                                value={props.order.number}
+                                onChange={event => onChangeHandler(event, "number")}
+                            />
+                        </div>
+                        <div className="order-input">
+                            <label>מספר דירה</label>
+                            <br/>
+                            <input
+                                type="number"
+                                placeholder="מספר דירה"
+                                min="1"
+                                step="1"
+                                value={props.order.apartment}
+                                onChange={event => onChangeHandler(event, "apartment")}
+                            />
+                        </div>
                     </div>
                 </div>
                 <h2>הערה</h2>

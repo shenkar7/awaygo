@@ -162,8 +162,8 @@ const AddOrder = props => {
     }
     else {
         content = (
-            <React.Fragment>
-                <div className="add-order-window">
+            <div className="add-order-window">
+                <div class="cart-and-details">
                     <div className="customer-and-menu">
                         <OrderDetails
                             order={order}
@@ -173,15 +173,13 @@ const AddOrder = props => {
                             validFields={submitValidation}
                             setValidFields={setSubmitValidation}
                             setInvalid={setInvalid}
-                        />
+                            />
                         <Menu setOrder={setOrder}/>
                     </div>
-                    <div className="cart">
-                        <Cart order={order} setOrder={setOrder}/>
-                    </div>
+                    <Cart order={order} setOrder={setOrder}/>
                 </div>
                 <TimingOrder timingButtonHandler={submitHandler} invalid={invalid}/>
-            </React.Fragment>
+            </div>
         );
     }
 

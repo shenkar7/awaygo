@@ -26,6 +26,7 @@
 .dish-extras .category-inputs {
     display: flex;
     flex-direction: row-reverse;
+    flex-wrap: wrap;
 }
 
 .dish-extras .category-inputs .extra-input{

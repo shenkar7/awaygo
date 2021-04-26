@@ -12,8 +12,13 @@
     flex-direction: row-reverse;
 }
 
+.order-details .input-couple {
+    display: flex;
+}
+
 .order-details .order-input {
     flex: 1;
+    margin: 0 0 5px 6px;
 }
 
 .order-details .invalid label {
@@ -32,4 +37,10 @@
 .order-details input::placeholder {
     text-align: right;
     color: #3a96e1;
+}
+
+@media only screen and (max-width : 1230px) {
+    .order-details .input-couple {
+        display: block;
+    }
 }

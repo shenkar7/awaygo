@@ -28,7 +28,7 @@ const TimingOrder = props => {
 
 
     let content = (
-        <div>
+        <div className="timing-orders">
             <div className="timing-choices">
                 {timing === 10 ?
                     <div className="choice selected">

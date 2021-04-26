@@ -19,11 +19,12 @@
   }
 
 .cart-window {
-    /* width: 100%; */
+    width: 380px;
+    padding: 10px;
     height: fit-content;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 8px 0 rgba(0, 0, 0, 0.05);
-    padding: 10px;
+    margin: 10px;
 }
 
 .cart-window .dishes-in-order {
@@ -53,4 +54,10 @@
 
 .cart-window .submit-order:hover {
     background-color: rgb(218, 141, 0);
+}
+
+@media only screen and (max-width : 835px) {
+  .cart-window {
+    width: 300px;
+  }
 }

@@ -22,5 +22,6 @@
 .modal-content {
     z-index: 201;
     max-height: 95%;
-    overflow-y: scroll;
+    max-width: 95%;
+    overflow-y: auto;
 }
