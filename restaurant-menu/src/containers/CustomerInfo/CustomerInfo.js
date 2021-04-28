@@ -118,8 +118,26 @@ const CustomerInfo = props => {
         return order;
     }
 
+    const getCookie = name => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
     let originURL = window.location.origin;
-    originURL = "http://127.0.0.1:8000"; // For local run
+    //originURL = "http://127.0.0.1:8000"; // Only for local run
 
     const submitHandler = event => {
         event.preventDefault();
@@ -127,7 +145,11 @@ const CustomerInfo = props => {
         if (allValid()){
             setStatus("loading");
             const orderWithIds = transformOrderToIds(order);
-            axios.post(originURL + '/order_add', orderWithIds)
+            axios.post(originURL + '/order_add', orderWithIds,
+                {
+                    headers: {'X-CSRFTOKEN': csrftoken,},
+                },
+            )
             .then(res => {
                 console.log("SUCCESS adding order")
                 props.setPage({page: "success", info: res.data.id})

@@ -36,7 +36,7 @@ const Layout = () => {
     });
 
     let originURL = window.location.origin;
-    originURL = "http://127.0.0.1:8000"; // For local run
+    // originURL = "http://127.0.0.1:8000"; // Only for local run
 
     useEffect(() => {
 
