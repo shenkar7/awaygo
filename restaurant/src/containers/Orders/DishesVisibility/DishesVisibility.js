@@ -36,9 +36,10 @@ const DishesVisibility = props => {
     const onSubmitHandler = () => {
         setStatus("loading");
 
+        const originURL = window.location.origin;
         const csrftoken = getCookie('csrftoken');
 
-        axios.put("http://127.0.0.1:8000/dishes_visibility",
+        axios.put(originURL + "/dishes_visibility",
             foodCategories,
             {
                 headers: {'X-CSRFTOKEN': csrftoken,},

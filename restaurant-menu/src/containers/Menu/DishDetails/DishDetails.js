@@ -103,7 +103,10 @@ const DishDetails = props => {
 
     const content = (
         <div className="dish-details">
-            <h3>{props.dish.name}</h3>
+            <div className="name">
+                <h3>{props.dish.name}</h3>
+                <i class="fas fa-times" onClick={props.setWindowModal}></i>
+            </div>
             <p>{props.dish.description}</p>
             <div className="price-and-counter">
                 {props.dish.price}₪
@@ -112,8 +115,10 @@ const DishDetails = props => {
             <hr/>
             <form onSubmit={formSubmitHandler}>
                 {extraCategories}
-                <h4>הערה למנה</h4>
-                <input type="text" onChange={event => onRemarkChangeHandler(event.target.value)}/>
+                <div className="dish-remark">
+                    <h4>הערה למנה</h4>
+                    <input type="text" onChange={event => onRemarkChangeHandler(event.target.value)}/>
+                </div>
                 <button className="add-dish-button" type="submit">הוסף להזמנה</button>
             </form>
         </div>

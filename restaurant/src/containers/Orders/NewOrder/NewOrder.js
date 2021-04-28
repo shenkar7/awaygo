@@ -17,9 +17,10 @@ const NewOrder = props => {
         newOrder.customer = newOrder.customer.id;
 
         setStatus('loading');
+        const originURL = window.location.origin;
         const csrftoken = getCookie('csrftoken');
 
-        axios.put('http://127.0.0.1:8000/order/' + newOrder.id + '/',
+        axios.put(originURL + '/order/' + newOrder.id + '/',
             newOrder,
             {
                 headers: {'X-CSRFTOKEN': csrftoken,},

@@ -17,13 +17,13 @@ const Menu = props => {
                             <div>
                                 <h4>{dish.name}</h4>
                                 <p>{dish.description}</p>
-                                <p>₪{dish.price}</p>
+                                <p class="price">₪{dish.price}</p>
                             </div>
-                            <div className="dish-image">
-                                {dish.img ?
-                                <img alt="dish" src={"http://127.0.0.1:8000" + dish.img}/>
-                                : null}
-                            </div>
+                            {dish.img ?
+                                <div className="dish-image">
+                                    <img alt="dish" src={"http://127.0.0.1:8000" + dish.img}/>
+                                </div>
+                            : null}
                         </div>
                     );
                 }

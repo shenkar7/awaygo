@@ -69,9 +69,7 @@ const AddOrder = props => {
         return true;
     }
 
-    const createNewOrderWithIds = () => {
-        console.log("inside createNewOrderWithIds");
-        
+    const createNewOrderWithIds = () => {        
         const newOrder = {
             ...order,
             dishes_in_order: [...order.dishes_in_order]
@@ -94,19 +92,15 @@ const AddOrder = props => {
     const submitHandler = (timing) => {
         if (allValid()){
             setStatus('loading');
-            console.log("inSubmitHandler");
 
             const newOrder = createNewOrderWithIds();
             newOrder.status = "process";
             newOrder.date_time = new Date(Date.now() + timing * 60 * 1000);
 
-            console.log("order");
-            console.log(order.dishes_in_order);
-            console.log("newOrder");
-            console.log(newOrder.dishes_in_order);
+            const originURL = window.location.origin;
 
             const csrftoken = getCookie('csrftoken');
-            axios.post('http://127.0.0.1:8000/order_add',
+            axios.post(originURL + '/order_add',
                 newOrder,
                 {
                     headers: {'X-CSRFTOKEN': csrftoken,},

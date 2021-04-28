@@ -1,6 +1,7 @@
 .menu-button {
     padding: 15px 0 15px 60px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .menu-button a {

@@ -14,15 +14,28 @@
 }
 
 .form-window {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 8px 0 rgba(0, 0, 0, 0.05);
     padding: 20px;
     margin-bottom: 25px;
 }
 
+.form-window form {
+    width: 100%;
+}
+
 .details-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.details-section .input-couple {
+    display: flex;
+    /* justify-content: space-between; */
 }
 
 .details-section .info label{
@@ -37,26 +50,32 @@
     border: 1px solid gray;
 }
 
-.details-section .info {
-    margin-left: 40px;
+.details-section .seperator {
+    width: 40px;
+    min-width: 40px;
 }
 
-.remark-section input{
+/* .details-section .info {
+    margin-left: 40px;
+} */
+
+.form-window .remark-section input{
     width: 500px;
 }
 
-.submit-section {
+.form-window .submit-section {
     margin-top: 60px;
     text-align: center;
 }
 
-.submit-section button {
+.form-window .submit-section button {
     width: 350px;
     background-color: orange;
     font-size: 18px;
     border: none;
     padding: 12px;
     cursor: pointer;
+    margin: auto;
 }
 
 .submit-section button:hover {
@@ -83,3 +102,31 @@
 .spinner-and-error .loader:before {
     background: gray;
 }
+
+
+@media screen and (max-width: 1190px) {
+
+    .form-window .details-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-window .remark-section {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .form-window .details-section .input-couple {
+        flex-direction: column;
+    }
+
+    .form-window .remark-section input {
+        width: 90%;
+    }
+
+    .form-window .submit-section button {
+        width: 100%;
+    }
+}
+

@@ -47,10 +47,12 @@ const Orders = props => {
         }
     }
 
+    const originURL = window.location.origin;
+
     useEffect(() => {
-        const getCustomers = axios.get("http://127.0.0.1:8000/customers");
-        const getOrders = axios.get("http://127.0.0.1:8000/orders");
-        const getRestaurant = axios.get("http://127.0.0.1:8000/my_restaurant");
+        const getCustomers = axios.get(originURL + "/customers");
+        const getOrders = axios.get(originURL + "/orders");
+        const getRestaurant = axios.get(originURL + "/my_restaurant");
 
         axios.all([getCustomers, getOrders, getRestaurant])
             .then((responses) => {
@@ -60,7 +62,7 @@ const Orders = props => {
                 setOrders(responses[1].data);
                 setRestaurant(responses[2].data)
 
-                axios.get('http://127.0.0.1:8000/foodcategories/' + responses[2].data.id + '/')
+                axios.get(originURL + '/foodcategories/' + responses[2].data.id + '/')
                     .then((res) => {
                         console.log("SUCCESS getting foodcategories");
                         setFoodCategories(res.data);
@@ -90,7 +92,7 @@ const Orders = props => {
 
         if(!loading && !error){
             const interval = setInterval(() => {
-                axios.get("http://127.0.0.1:8000/orders")
+                axios.get(originURL + "/orders")
                 .then(res => {
                     console.log("SUCCESS getting orders");
                     if(dbOrdersChanged(res.data)){

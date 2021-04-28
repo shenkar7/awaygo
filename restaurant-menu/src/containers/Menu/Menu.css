@@ -15,7 +15,6 @@
 }
 
 .categories-and-cart .category {
-    margin-bottom: 20px;
     padding-top: 1px;
 }
 
@@ -37,6 +36,15 @@
     cursor: pointer;
 }
 
+.categories-and-cart .category .dishes-in-category .dish h4 {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.categories-and-cart .category .dishes-in-category .dish .price {
+    margin-bottom: 3px;
+}
+
 .categories .dish {
     display: flex;
     justify-content: space-between;
@@ -54,4 +62,20 @@
     object-fit: cover;
     min-width: 100%;
     min-height: 100%;
+}
+
+@media screen and (max-width: 1190px){
+    .categories-and-cart .category .dishes-in-category .dish {
+        width: 100%;
+    }
+
+    .categories-and-cart .categories {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .categories-and-cart {
+        flex-direction: column-reverse;
+    }
 }

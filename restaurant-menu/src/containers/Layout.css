@@ -8,6 +8,10 @@ header {
     z-index: 100;
 }
 
+.layout {
+    width: 100%;
+}
+
 .layout > .loading {
     margin-top: 50px;
     display: flex;
@@ -37,16 +41,36 @@ header {
 }
 
 .restaurant-back-img {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
     position: relative;
-    height: 300px;
+    height: 250px;
     top: 40px;
 }
 
 .restaurant-back-img img {
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
-    right: 0;
-    top: -250px;
+    /* right: 0;
+    top: -250px; */
+}
+
+@media screen and (max-width: 1320px){
+    .main {
+      width: 1170px;
+    }
+}
+
+@media screen and (max-width: 1190px){
+    .main {
+        width: 98%;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .restaurant-back-img {
+        height: 150px;
+    }
 }

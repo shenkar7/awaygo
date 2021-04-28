@@ -118,13 +118,16 @@ const CustomerInfo = props => {
         return order;
     }
 
+    let originURL = window.location.origin;
+    originURL = "http://127.0.0.1:8000"; // For local run
+
     const submitHandler = event => {
         event.preventDefault();
         
         if (allValid()){
             setStatus("loading");
             const orderWithIds = transformOrderToIds(order);
-            axios.post('http://127.0.0.1:8000/order_add', orderWithIds)
+            axios.post(originURL + '/order_add', orderWithIds)
             .then(res => {
                 console.log("SUCCESS adding order")
                 props.setPage({page: "success", info: res.data.id})
@@ -155,84 +158,98 @@ const CustomerInfo = props => {
 
                         <h3>פרטי המזמין</h3>
                         <div className="details-section">
-                            <div className={submitValidation.phone_number ? "info" : "info invalid"}>
-                                <label>* טלפון נייד</label>
-                                <input
-                                    type="tel"
-                                    placeholder="טלפון נייד"
-                                    value={order.customer.phone_number}
-                                    onChange={event => onChangeHandler(event, "phone_number")}
-                                />
+                            <div className="input-couple">
+                                <div className={submitValidation.phone_number ? "info" : "info invalid"}>
+                                    <label>* טלפון נייד</label>
+                                    <input
+                                        type="tel"
+                                        placeholder="טלפון נייד"
+                                        value={order.customer.phone_number}
+                                        onChange={event => onChangeHandler(event, "phone_number")}
+                                    />
+                                </div>
+                                <div className="seperator"></div>
+                                <div className="info">
+                                    <label>אימייל</label>
+                                    <input
+                                        type="email"
+                                        placeholder="אימייל"
+                                        value={order.customer.email}
+                                        onChange={event => onChangeHandler(event, "email")}
+                                    />
+                                </div>
                             </div>
-                            <div className="info">
-                                <label>אימייל</label>
-                                <input
-                                    type="email"
-                                    placeholder="אימייל"
-                                    value={order.customer.email}
-                                    onChange={event => onChangeHandler(event, "email")}
-                                />
-                            </div>
-                            <div className={submitValidation.first_name ? "info" : "info invalid"}>
-                                <label>* שם פרטי</label>
-                                <input
-                                    type="text"
-                                    placeholder="שם פרטי"
-                                    value={order.customer.first_name}
-                                    onChange={event => onChangeHandler(event, "first_name")}
-                                />
-                            </div>
-                            <div className={submitValidation.last_name ? "info" : "info invalid"}>
-                                <label>* שם משפחה</label>
-                                <input
-                                    type="text"
-                                    placeholder="שם משפחה"
-                                    value={order.customer.last_name}
-                                    onChange={event => onChangeHandler(event, "last_name")}
-                                />
+                            <div className="seperator"></div>
+                            <div className="input-couple">
+                                <div className={submitValidation.first_name ? "info" : "info invalid"}>
+                                    <label>* שם פרטי</label>
+                                    <input
+                                        type="text"
+                                        placeholder="שם פרטי"
+                                        value={order.customer.first_name}
+                                        onChange={event => onChangeHandler(event, "first_name")}
+                                    />
+                                </div>
+                                <div className="seperator"></div>
+                                <div className={submitValidation.last_name ? "info" : "info invalid"}>
+                                    <label>* שם משפחה</label>
+                                    <input
+                                        type="text"
+                                        placeholder="שם משפחה"
+                                        value={order.customer.last_name}
+                                        onChange={event => onChangeHandler(event, "last_name")}
+                                    />
+                                </div>
                             </div>
                         </div>
                         
                         <h3>כתובת</h3>
                         <div className="details-section">
-                            <div className={submitValidation.city ? "info" : "info invalid"}>
-                                <label>* עיר</label>
-                                <input
-                                    type="text"
-                                    placeholder="עיר"
-                                    value={order.city}
-                                    onChange={event => onChangeHandler(event, "city")}
-                                />
+                            <div className="input-couple">
+                                <div className={submitValidation.city ? "info" : "info invalid"}>
+                                    <label>* עיר</label>
+                                    <input
+                                        type="text"
+                                        placeholder="עיר"
+                                        value={order.city}
+                                        onChange={event => onChangeHandler(event, "city")}
+                                    />
+                                </div>
+                                <div className="seperator"></div>
+                                <div className={submitValidation.street ? "info" : "info invalid"}>
+                                    <label>* רחוב</label>
+                                    <input
+                                        type="text"
+                                        placeholder="רחוב"
+                                        value={order.street}
+                                        onChange={event => onChangeHandler(event, "street")}
+                                    />
+                                </div>
                             </div>
-                            <div className={submitValidation.street ? "info" : "info invalid"}>
-                                <label>* רחוב</label>
-                                <input
-                                    type="text"
-                                    placeholder="רחוב"
-                                    value={order.street}
-                                    onChange={event => onChangeHandler(event, "street")}
-                                />
-                            </div>
-                            <div className={submitValidation.number ? "info" : "info invalid"}>
-                                <label>* מספר בית</label>
-                                <input
-                                    type="number"
-                                    min="1" 
-                                    placeholder="מספר בית"
-                                    step="1"
-                                    value={order.number}
-                                    onChange={event => onChangeHandler(event, "number")}
-                                />
-                            </div>
-                            <div className="info">
-                                <label>מספר דירה</label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    placeholder="מספר דירה"
-                                    value={order.apartment}
-                                    onChange={event => onChangeHandler(event, "apartment")}
-                                />
+                            <div className="seperator"></div>
+                            <div className="input-couple">
+                                <div className={submitValidation.number ? "info" : "info invalid"}>
+                                    <label>* מספר בית</label>
+                                    <input
+                                        type="number"
+                                        min="1" 
+                                        placeholder="מספר בית"
+                                        step="1"
+                                        value={order.number}
+                                        onChange={event => onChangeHandler(event, "number")}
+                                    />
+                                </div>
+                                <div className="seperator"></div>
+                                <div className="info">
+                                    <label>מספר דירה</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        placeholder="מספר דירה"
+                                        value={order.apartment}
+                                        onChange={event => onChangeHandler(event, "apartment")}
+                                    />
+                                </div>
                             </div>
                         </div>
 

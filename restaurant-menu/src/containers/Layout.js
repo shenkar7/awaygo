@@ -35,13 +35,17 @@ const Layout = () => {
         dishes_in_order: []
     });
 
+    let originURL = window.location.origin;
+    originURL = "http://127.0.0.1:8000"; // For local run
+
     useEffect(() => {
 
-        const getRestaurant = axios.get('http://127.0.0.1:8000/restaurant/' + id + '/')
-        const getFoodCategories = axios.get('http://127.0.0.1:8000/foodcategories/' + id + '/')
+        const getRestaurant = axios.get(originURL + '/restaurant/' + id + '/')
+        const getFoodCategories = axios.get(originURL + '/foodcategories/' + id + '/')
         
         axios.all([getRestaurant, getFoodCategories])
         .then(res => {
+            console.log("SUCCESS getting restaurant and foodCategories");
             setRestaurant(res[0].data);
             if(res[0].data.menu_open){
                 setFoodCategories(res[1].data);
@@ -55,7 +59,7 @@ const Layout = () => {
             console.log(errors);
             setStatus('error');
         })
-    }, [id]);
+    }, [id, originURL]);
 
 
     let content;
@@ -74,7 +78,7 @@ const Layout = () => {
         content = (
             <React.Fragment>
                 <div className="restaurant-back-img">
-                    <img alt="pic" src={"http://127.0.0.1:8000" + restaurant.background_img}/>
+                    <img alt="pic" src={originURL + restaurant.background_img}/>
                 </div>
                 <div className="menu_close">המסעדה סגורה כרגע להזמנות</div>
             </React.Fragment>
@@ -98,7 +102,7 @@ const Layout = () => {
         content = (
             <React.Fragment>
                 <div className="restaurant-back-img">
-                    <img alt="pic" src={"http://127.0.0.1:8000" + restaurant.background_img}/>
+                    <img alt="pic" src={originURL + restaurant.background_img}/>
                 </div>
                 <main className='main'>
                     <h2>{restaurant.name}</h2>

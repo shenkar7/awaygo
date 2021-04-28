@@ -9,20 +9,17 @@ const MenuSiteClosure = props => {
 
     const [status, setStatus] = useState(null);
 
-    console.log("props.restaurant.menu_open" + props.restaurant.menu_open);
-
-    const toggleHandler = event => {
-        console.log("toggleHandler");
-    
+    const toggleHandler = event => {    
         const newRestaurant = {...props.restaurant};
         newRestaurant.menu_open = event.target.checked;
         delete newRestaurant.background_img;
 
         if (event.target.checked !== props.restaurant.menu_open){
             setStatus("loading");
+            const originURL = window.location.origin;
             const csrftoken = getCookie('csrftoken');
 
-            axios.put("http://127.0.0.1:8000/my_restaurant",
+            axios.put(originURL + "/my_restaurant",
                 newRestaurant,
                 {
                     headers: {'X-CSRFTOKEN': csrftoken,},
