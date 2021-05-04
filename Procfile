@@ -1,1 +1,1 @@
-web: gunicorn awaygo.wsgi 
+web: gunicorn awaygo.wsgi
