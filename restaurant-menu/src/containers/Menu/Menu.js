@@ -9,6 +9,8 @@ const Menu = props => {
 
     const [dishDetailsWindow, setDishDetailsWindow] = useState(null);
 
+    let originURL = window.location.origin;
+
     const categories = props.foodCategories.map(category => {
             const dishes = category.dishes.map(dish => {
                 if (dish.visible){
@@ -21,7 +23,7 @@ const Menu = props => {
                             </div>
                             {dish.img ?
                                 <div className="dish-image">
-                                    <img alt="dish" src={"http://127.0.0.1:8000" + dish.img}/>
+                                    <img alt="dish" src={originURL + dish.img}/>
                                 </div>
                             : null}
                         </div>
