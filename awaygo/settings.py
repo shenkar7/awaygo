@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'r+us(4yl@o1i_cx56&=zt-k9#g=u-^0w#2cmv+86498fi#p8f&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['awaygo.herokuapp.com', '127.0.0.1']
 
