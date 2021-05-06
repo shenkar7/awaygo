@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 import environ
-# import django_heroku
+import django_heroku
 
 env = environ.Env()
 environ.Env.read_env()
@@ -152,4 +152,4 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
