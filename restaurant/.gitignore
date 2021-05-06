@@ -10,7 +10,7 @@
 
 # ======================
 
-# When deploying, use production. Use git rm -r --cached <folder> before adding to the staging area.
+# When deploying, ignore /src. For github ignore /build Use git rm -r --cached <folder> before adding to the staging area.
 
 # github
 /build
@@ -19,6 +19,7 @@
 #/src
 
 # =====================
+
 # misc
 .DS_Store
 .env.local
