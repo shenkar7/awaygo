@@ -8,9 +8,17 @@
 # testing
 /coverage
 
-# production
-# /build
+# ======================
 
+# When deploying, use production. Use git rm -r --cached <folder> before adding to the staging area.
+
+# github
+/build
+
+# production 
+#/src
+
+# =====================
 # misc
 .DS_Store
 .env.local
