@@ -13,10 +13,10 @@
 # When deploying, ignore /src. For github ignore /build Use git rm -r --cached restaurant-menu/<folder> before adding to the staging area.
 
 # github
-# /build
+/build
 
 # production 
-/src
+# /src
 
 # =====================
 
