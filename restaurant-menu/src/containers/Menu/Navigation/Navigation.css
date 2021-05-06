@@ -1,8 +1,0 @@
-.navigation {
-    display: flex;
-    overflow-x: auto;
-}
-
-::-webkit-scrollbar {
-    height: 10px;
-  }
