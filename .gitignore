@@ -1,2 +1,11 @@
 # env file with django secret key
 /awaygo/.env
+
+# ======================
+
+# When pishing to github ignore /staticfiles. Use git rm -r --cached staticfiles before adding to the staging area.
+
+# github
+# /staticfiles
+
+# =====================
