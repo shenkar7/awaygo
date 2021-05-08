@@ -1,0 +1,16 @@
+.name-and-price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete {
+    text-align: left;
+}
+
+.delete i {
+    cursor: pointer;
+}
+
+.delete i:hover {
+    color: gray;
+}
