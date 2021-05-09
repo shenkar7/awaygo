@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['awaygo.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['awaygo.herokuapp.com', 'awaygotest.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -158,7 +158,7 @@ CORS_ALLOWED_ORIGINS = [
 
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'awaygo'
+AWS_STORAGE_BUCKET_NAME = 'awaygotest'
 AWS_S3_FILE_OVERWRITE = False
 # AWS_DEFAULT_ACL=None
 
