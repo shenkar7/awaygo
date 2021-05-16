@@ -23,8 +23,8 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=200)
     email = models.EmailField(blank=True, null=True)
     city = models.CharField(max_length=200)
-    street = models.CharField(max_length=200, blank=True, null=True)
-    number = models.IntegerField(blank=True, null=True)
+    street = models.CharField(max_length=200)
+    number = models.IntegerField()
     apartment = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -65,8 +65,8 @@ class Order(models.Model):
     remark = models.TextField(blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     city = models.CharField(max_length=200)
-    street = models.CharField(max_length=200, blank=True, null=True)
-    number = models.IntegerField(blank=True, null=True)
+    street = models.CharField(max_length=200)
+    number = models.IntegerField()
     apartment = models.IntegerField(blank=True, null=True)
 
     class Meta:
