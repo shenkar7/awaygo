@@ -55,11 +55,16 @@ class Dish(models.Model):
         return self.name + ' - ' + self.category.restaurant.name
 
 class Order(models.Model):
-    date_time = models.DateTimeField(default=timezone.now)
+    creation_date_time = models.DateTimeField(auto_now_add=True)
+    process_date_time = models.DateTimeField(default=timezone.now)
+    ready_date_time = models.DateTimeField(blank=True, null=True)
+    sent_date_time = models.DateTimeField(blank=True, null=True)
+    delivered_date_time = models.DateTimeField(blank=True, null=True)
+    canceled_date_time = models.DateTimeField(blank=True, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=9,
-        choices=[('new', 'New'), ('process', 'In Process'), ('ready', 'Ready'), ('sent', 'Sent'), ('delivered', 'Delivered')],
+        choices=[('new', 'New'), ('process', 'In Process'), ('ready', 'Ready'), ('sent', 'Sent'), ('delivered', 'Delivered'), ('canceled', 'Canceled')],
         default='new'
     )
     remark = models.TextField(blank=True, null=True)
@@ -70,7 +75,7 @@ class Order(models.Model):
     apartment = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        ordering = ['date_time']
+        ordering = ['process_date_time']
 
     def __str__(self):
         return str(self.id) + " - " + self.restaurant.name + " - " + self.customer.first_name + " " + self.customer.last_name

@@ -247,8 +247,8 @@ def order_add(request):
     if "status" in request.data.keys():
         order["status"] = request.data["status"]
 
-    if "date_time" in request.data.keys():
-        order["date_time"] = request.data["date_time"]
+    if "process_date_time" in request.data.keys():
+        order["process_date_time"] = request.data["process_date_time"]
 
     orderSerializer = OrderSerializer(data=order)
     if orderSerializer.is_valid():
