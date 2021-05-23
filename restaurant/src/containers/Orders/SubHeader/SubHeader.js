@@ -18,7 +18,7 @@ const SubHeader = props => {
             <div className="navigation">
                 <span className="navigation-button" onClick={props.historyHandler}>
                     <i class="fas fa-history"></i>
-                    היסטורית הזמנות (בבנייה)
+                    היסטורית הזמנות
                 </span>
                 <span className="separator">|</span>
                 <span className="navigation-button" onClick={props.menuSiteClosureHandler}>
