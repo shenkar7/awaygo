@@ -4,6 +4,31 @@ import Spinner from '../../../components/Spinner/Spinner';
 import axios from 'axios';
 import {getCookie} from '../../../assets/functions';
 
+const getDateFromString = dateTime => {
+    if (dateTime === null)
+        return null;
+
+    return (dateTime.substring(8, 10) + "/" + dateTime.substring(5, 7) + "/" + dateTime.substring(0, 4));
+}
+
+const getTimeFromString = dateTime => {
+    if (dateTime === null)
+        return null;
+
+    if (typeof dateTime === "string")
+        return(dateTime.substring(11, 16));
+
+    let hours = dateTime.getHours().toString();
+    if (hours.length === 1)
+        hours = "0" + hours;
+
+    let minutes = dateTime.getMinutes().toString();
+    if (minutes.length === 1)
+        minutes = "0" + minutes;
+    
+    return hours + ":" + minutes;
+}
+
 const ViewOrder = props => {
 
     const [status, setStatus] = useState(null);
@@ -77,14 +102,14 @@ const ViewOrder = props => {
         buttons = (
             <div class="buttons">
                 <button className="back-button" onClick={() => backButtonHandler("back")}>החזר למצב הקודם</button>
-                <button className="delete-button" onClick={() => backButtonHandler("cancel")}>מחק הזמנה</button>
+                <button className="delete-button" onClick={() => backButtonHandler("cancel")}>בטל הזמנה</button>
             </div>
         );
     }
     else if (props.order.status !== "deleted"){
         buttons = (
             <div class="buttons">
-                <button className="delete-button" onClick={() => backButtonHandler("cancel")}>מחק הזמנה</button>
+                <button className="delete-button" onClick={() => backButtonHandler("cancel")}>בטל הזמנה</button>
             </div>
         );
     }
@@ -99,12 +124,51 @@ const ViewOrder = props => {
     if(props.order.apartment)
         apartment = " דירה " + String(props.order.apartment);
 
+    const creationTime = getTimeFromString(props.order.creation_date_time);
+    const creationDate = getDateFromString(props.order.creation_date_time);
+    const processTime = getTimeFromString(props.order.process_date_time);
+    const readyTime = getTimeFromString(props.order.ready_date_time);
+    const sentTime = getTimeFromString(props.order.sent_date_time);
+    const deliveredTime = getTimeFromString(props.order.delivered_date_time);
+    const canceledTime = getTimeFromString(props.order.canceled_date_time);
+
+    let datesSection = null;
+    if(canceledTime)
+        datesSection = (
+            <React.Fragment>
+                <div>{creationTime + " :נוצר ב"}</div>
+                <div>{canceledTime + " :בוטל ב"}</div>
+            </React.Fragment>
+        );
+    else{
+        datesSection = (
+            <React.Fragment>
+                <div>{creationTime + " :נוצר ב"}</div>
+                {/* <div>{processTime ? processTime + " :בטיפול מ" : null}</div> */}
+                <div>{readyTime ? readyTime + " :מוכן מ" : null}</div>
+                <div>{sentTime ? sentTime + " :יצא ב" : null}</div>
+                <div>{deliveredTime ? deliveredTime + " :הגיע ב" : null}</div>
+            </React.Fragment>
+        );
+    }
+
     const content = (
         <div className="view-order-window">
             <div className="order-number"><b>#{props.order.id}</b></div>
             <div className="inside-window">
-                <div className="name">{props.order.customer.first_name + " " + props.order.customer.last_name}</div>
-                <div className="address">{props.order.city + street + number + apartment}</div>
+                <div className="date-name-address">
+                    <div className="creation-date">
+                        {creationDate}
+                    </div>
+                    <div>
+                        <div className="name">{props.order.customer.first_name + " " + props.order.customer.last_name}</div>
+                        <div className="address">{props.order.city + street + number + apartment}</div>
+                    </div>
+                </div>
+                <hr/>
+                <div className="dates-section">
+                    {datesSection}
+                </div>
                 <hr/>
                 <div className="food-section">
                     <i className="fas fa-hamburger"></i>

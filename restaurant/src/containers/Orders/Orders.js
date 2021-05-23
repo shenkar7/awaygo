@@ -195,7 +195,6 @@ const Orders = props => {
         const dishesVisibility = <DishesVisibility foodCategories={foodCategories} setFoodCategories={setFoodCategories} modalClose={setDishesVisibilityWindow}/>;
 
         let pageContent = null;
-        console.log(page);
         switch (page) {
             case 'orders':
                 pageContent = (

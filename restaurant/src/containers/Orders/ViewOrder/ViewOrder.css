@@ -17,6 +17,17 @@
     padding: 13px;
 }
 
+.view-order-window .inside-window .date-name-address{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-order-window .inside-window .creation-date {
+    margin: 0;
+    font-weight: bold;
+}
+
 .view-order-window .inside-window .name {
     font-size: 14px;
     font-weight: bold;
@@ -25,6 +36,11 @@
 .view-order-window .inside-window .address {
     font-size: 13px;
 }
+
+.view-order-window .inside-window .dates-section {
+    font-size: 14px;
+}
+
 
 .view-order-window .inside-window .food-section, .view-order-window .inside-window .remark-section {
     display: flex;
