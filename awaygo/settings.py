@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['awaygo.herokuapp.com', 'awaygotest.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['awaygo.herokuapp.com', 'www.awaygo.herokuapp.com', 'awaygotest.herokuapp.com', 'www.awaygotest.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -55,8 +55,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
