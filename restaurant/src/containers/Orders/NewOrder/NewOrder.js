@@ -9,14 +9,20 @@ const NewOrder = props => {
 
     const [status, setStatus] = useState(null);
     
-    const timingButtonHandler = (timing) => {
+    const timingButtonHandler = (value) => {
         const newOrder = {...props.order};
-
-        newOrder.process_date_time = new Date(Date.now());
-        newOrder.timing_date_time = new Date(Date.now() + timing * 60 * 1000);
-        newOrder.status = 'process';
         newOrder.customer = newOrder.customer.id;
 
+        if(value){
+            newOrder.process_date_time = new Date(Date.now());
+            newOrder.timing_date_time = new Date(Date.now() + value * 60 * 1000);
+            newOrder.status = 'process';
+        }
+        else {
+            newOrder.status = 'canceled';
+            newOrder.canceled_date_time = new Date(Date.now());
+        }
+        
         setStatus('loading');
         const originURL = window.location.origin;
         const csrftoken = getCookie('csrftoken');
@@ -39,7 +45,6 @@ const NewOrder = props => {
             console.log('ERROR updating order');
             console.log(err.message);
         })
-
     }
 
     let content = null;
@@ -58,7 +63,12 @@ const NewOrder = props => {
         }
         else {
             timingOrder = (
-                <TimingOrder timingButtonHandler={timingButtonHandler}/>
+                <React.Fragment>
+                    <TimingOrder timingButtonHandler={timingButtonHandler}/>
+                    <div className="cancel-button-section">
+                        <div onClick={() => timingButtonHandler(null)}>בטל הזמנה</div>
+                    </div>
+                </React.Fragment>
             );
         }
 

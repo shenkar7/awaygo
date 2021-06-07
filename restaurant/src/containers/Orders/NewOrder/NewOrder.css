@@ -54,3 +54,21 @@
     font-size: 10px;
     font-weight: bold;
 }
+
+.new-order-window .cancel-button-section {
+    text-align: center;
+}
+
+.new-order-window .cancel-button-section div {
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
+    width: 80px;
+    margin-top: 5px;
+}
+
+.new-order-window .cancel-button-section div:hover {
+    background-color: rgb(218, 0, 0);
+}
