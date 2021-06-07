@@ -56,7 +56,8 @@ class Dish(models.Model):
 
 class Order(models.Model):
     creation_date_time = models.DateTimeField(auto_now_add=True)
-    process_date_time = models.DateTimeField(default=timezone.now)
+    process_date_time = models.DateTimeField(blank=True, null=True)
+    timing_date_time = models.DateTimeField(blank=True, null=True)
     ready_date_time = models.DateTimeField(blank=True, null=True)
     sent_date_time = models.DateTimeField(blank=True, null=True)
     delivered_date_time = models.DateTimeField(blank=True, null=True)

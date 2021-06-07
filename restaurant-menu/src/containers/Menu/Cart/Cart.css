@@ -1,0 +1,88 @@
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+.cart {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 120px;
+    width: 380px;
+    height: fit-content;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+    padding: 10px;
+}
+
+.cart .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart .title i {
+  display: none;
+}
+
+.cart .dishes-in-order {
+    overflow-y: auto;
+    max-height: 450px;
+    padding-left: 5px;
+}
+
+.cart .total-price{
+    text-align: center;
+}
+
+.cart .submit-order {
+    background-color: orange;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 12px;
+    text-align: center;
+}
+
+.cart .submit-order:hover {
+    background-color: rgb(218, 141, 0);
+}
+
+
+
+@media screen and (max-width: 1320px){
+  .cart {
+    min-width: 250px;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .cart {
+    width: 100%;
+    box-sizing: border-box;
+    position: static;
+  }
+
+  .cart .dishes-in-order {
+    max-height: 300px;
+  }
+
+  .cart .title i {
+    display: inline;
+  }
+}

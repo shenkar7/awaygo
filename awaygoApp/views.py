@@ -249,8 +249,11 @@ def order_add(request):
     if "status" in request.data.keys():
         order["status"] = request.data["status"]
 
+    # happens when a restaurant adds an order
     if "process_date_time" in request.data.keys():
         order["process_date_time"] = request.data["process_date_time"]
+    if "timing_date_time" in request.data.keys():
+        order["timing_date_time"] = request.data["timing_date_time"]
 
     orderSerializer = OrderSerializer(data=order)
     if orderSerializer.is_valid():

@@ -1,0 +1,71 @@
+
+
+.timing-choices {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: rgb(228, 228, 228);
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.timing-choices h2 {
+    margin: 0;
+}
+
+.timing-choices .choice, .timing-choices .number-choice {
+    margin: 5px 20px 5px 5px;
+    text-align: right;
+}
+
+.timing-choices .choice {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+    background-color:white;
+    font-size: 18px;
+}
+
+.timing-choices .choice span {
+    margin: 3px;
+}
+
+.timing-choices .choice:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+
+.timing-choices .number-choice input{
+    margin-right: 10px;
+    text-align: right;
+}
+
+.timing-choices .selected {
+    outline: 2px solid red;
+}
+
+.time-order {
+    background-color: orange;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+}
+
+.time-order h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.time-order:hover {
+    background-color: rgb(211, 137, 0);
+}

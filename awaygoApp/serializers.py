@@ -68,4 +68,4 @@ class DetailedOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'restaurant', 'creation_date_time', 'process_date_time', 'ready_date_time', 'sent_date_time', 'delivered_date_time', 'canceled_date_time','status', 'customer', 'city', 'street', 'number', 'apartment', 'remark','dishesinorder']
+        fields = ['id', 'restaurant', 'creation_date_time', 'process_date_time', 'timing_date_time', 'ready_date_time', 'sent_date_time', 'delivered_date_time', 'canceled_date_time','status', 'customer', 'city', 'street', 'number', 'apartment', 'remark','dishesinorder']

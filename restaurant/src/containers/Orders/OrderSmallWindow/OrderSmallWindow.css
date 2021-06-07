@@ -1,0 +1,45 @@
+.order-small-window {
+    background-color: #eeeeee;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #626262;
+}
+
+.order-small-window .order-number {
+    color: rgb(51, 51, 51);
+    text-align: left;
+    font-size: 16px;
+}
+
+.order-small-window .inside-window {
+    background-color: white;
+    border: 1px solid #00b3e3;
+    padding: 11px;
+    cursor: pointer;
+}
+
+.order-small-window .name {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.order-small-window .address {
+    font-size: 11px;
+}
+
+.order-small-window .remark-section {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.order-small-window .remark {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.order-small-window .remark-section .fa-exclamation-triangle {
+    color: black;
+    font-size: 12px;
+    margin-left: 12px;
+}
