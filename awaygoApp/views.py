@@ -19,12 +19,12 @@ from datetime import datetime
 
 # Create your views here.
 def restaurant_menu(request):
-    return render(request, 'restaurant-menu/build/index.html', context={})
+    return render(request, 'restaurant-menu/build/index.html')
 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 def restaurant(request):
-    return render(request, 'restaurant/build/index.html', context={})
+    return render(request, 'restaurant/build/index.html')
 
 @unauthenticated_user
 def loginPage(request):
@@ -40,8 +40,10 @@ def loginPage(request):
             if user.is_superuser:
                 return redirect('/admin')
             return redirect('restaurant')
+        else:
+            return render(request, 'awaygoApp/login.html', context={"incorrect": True})
 
-    return render(request, 'awaygoApp/login.html', context={})
+    return render(request, 'awaygoApp/login.html')
 
 def logoutUser(request):
     logout(request)
