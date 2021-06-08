@@ -11,6 +11,9 @@ class Restaurant(models.Model):
     freetext = models.TextField(blank=True, null=True)
     background_img = models.ImageField(upload_to='restaurants/', blank=True, null=True)
     menu_open = models.BooleanField(default=True)
+    delivery_cost = models.DecimalField(max_digits=5, decimal_places=2)
+    lat = models.DecimalField(max_digits=9, decimal_places=7)
+    lng = models.DecimalField(max_digits=9, decimal_places=7)
 
     def __str__(self):
         return self.name
@@ -26,6 +29,8 @@ class Customer(models.Model):
     street = models.CharField(max_length=200)
     number = models.IntegerField()
     apartment = models.IntegerField(blank=True, null=True)
+    address_lat = models.DecimalField(max_digits=9, decimal_places=7)
+    address_lng = models.DecimalField(max_digits=9, decimal_places=7)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -74,12 +79,14 @@ class Order(models.Model):
     street = models.CharField(max_length=200)
     number = models.IntegerField()
     apartment = models.IntegerField(blank=True, null=True)
+    address_lat = models.DecimalField(max_digits=9, decimal_places=7)
+    address_lng = models.DecimalField(max_digits=9, decimal_places=7)
 
     class Meta:
         ordering = ['process_date_time']
 
     def __str__(self):
-        return str(self.id) + " - " + self.restaurant.name + " - " + self.customer.first_name + " " + self.customer.last_name
+        return str(self.id) + " - " + self.restaurant.name + " - " + self.customer.first_name + " " + self.customer.last_name + " - " + self.status
 
 class ExtraCategory(models.Model):
     name = models.CharField(max_length=200)

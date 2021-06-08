@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 const Cart = props => {
 
     const order = useContext(OrderContext)[0];
+    const delivery_costs = useContext(OrderContext)[2];
     const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
 
     let initialWindowOpen = true;
@@ -15,7 +16,7 @@ const Cart = props => {
 
     const [windowOpen, setWindowOpen] = useState(initialWindowOpen);
 
-    let totalPrice = 0;
+    let totalPrice = delivery_costs;
 
     const addToPrice = dishInOrder => {
         let addedPrice = parseFloat(dishInOrder.dish.price);
@@ -35,10 +36,10 @@ const Cart = props => {
             <div className="dishes-in-order">
                 {dishesInOrder} 
             </div>
-            {totalPrice > 0 ?
+            {totalPrice > delivery_costs ?
             <React.Fragment>
                 <div className="total-price">
-                    <h4>{`סה"כ ₪` + totalPrice}</h4>
+                    <h4>{`סה"כ + משלוח ₪` + totalPrice}</h4>
                 </div>
                 <div className="submit-order" onClick={props.submitHandler}>בצע הזמנה</div>
             </React.Fragment>

@@ -1,9 +1,13 @@
 import './Cart.css';
+import React, {useContext} from 'react';
+import OrdersPageContext from '../OrdersPageContext';
 import DishInCart from './DishInCart/DishInCart';
 
 const Cart = props => {
 
-    let totalPrice = 0;
+    const delivery_cost = useContext(OrdersPageContext).delivery_cost;
+
+    let totalPrice = delivery_cost;
 
     const addToPrice = dishInOrder => {
         let addedPrice = parseFloat(dishInOrder.dish.price);
@@ -24,9 +28,9 @@ const Cart = props => {
             <div className="dishes-in-order">
                {dishesInOrder} 
             </div>
-            {totalPrice > 0 ?
+            {totalPrice > delivery_cost ?
             <div className="total-price">
-                <h4>{`סה"כ ₪` + totalPrice}</h4>
+                <h4>{`סה"כ + משלוח ₪` + totalPrice}</h4>
             </div>
             : <p>העגלה ריקה</p>
             }

@@ -277,8 +277,12 @@ const Orders = props => {
         );
     }
 
+    let delivery_cost;
+    if (restaurant)
+        delivery_cost = parseFloat(restaurant.delivery_cost);
+
     return (
-        <OrdersPageContext.Provider value={{customersList: customersList, foodCategories: foodCategories}}>
+        <OrdersPageContext.Provider value={{customersList: customersList, foodCategories: foodCategories, delivery_cost: delivery_cost}}>
             {content}
         </OrdersPageContext.Provider>
     );

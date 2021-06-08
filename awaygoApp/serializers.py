@@ -4,7 +4,7 @@ from .models import *
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'freetext', 'background_img', 'menu_open']
+        fields = ['id', 'name', 'freetext', 'background_img', 'menu_open', 'delivery_cost']
         read_only_fields = ['background_img']
 
 class CustomerSerializer(serializers.ModelSerializer):  

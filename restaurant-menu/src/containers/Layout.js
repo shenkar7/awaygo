@@ -113,8 +113,12 @@ const Layout = () => {
         ) 
     }
     
+    let delivery_cost;
+    if (restaurant)
+        delivery_cost = parseFloat(restaurant.delivery_cost);
+
     return (
-        <OrderContext.Provider value={[order, setOrder]}>
+        <OrderContext.Provider value={[order, setOrder, delivery_cost]}>
             <div className="layout">
                 <header>
                     <img src={logoImg} alt="logo"/>
