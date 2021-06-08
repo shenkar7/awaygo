@@ -81,6 +81,7 @@ class Order(models.Model):
     apartment = models.IntegerField(blank=True, null=True)
     address_lat = models.DecimalField(max_digits=9, decimal_places=7)
     address_lng = models.DecimalField(max_digits=9, decimal_places=7)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         ordering = ['process_date_time']

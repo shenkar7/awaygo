@@ -66,7 +66,6 @@ def my_restaurant(request):
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        print(request.data)
         serializer = RestaurantSerializer(restaurant, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -233,7 +232,19 @@ def order_add(request):
             print("Customer not valid")
             return Response(customerSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
+    # calculating the total order price
+    totalOrderPrice = Restaurant.objects.get(id=request.data["restaurant"]).delivery_cost
+
+    for dishInOrder in request.data["dishes_in_order"]:
+        dishTotalPrice = Dish.objects.get(id=dishInOrder["dish"]).price
+        for extra in dishInOrder["extras"]:
+            dishTotalPrice += Extra.objects.get(id=extra).price
+
+        totalOrderPrice += dishTotalPrice * int(dishInOrder["quantity"])
+
+
+    print(totalOrderPrice)
+
     # create order with the customer
 
     order = {
@@ -244,12 +255,16 @@ def order_add(request):
         "street": request.data["street"],
         "number": request.data["number"],
         "apartment": request.data["apartment"],
+        "apartment": request.data["apartment"],
+        "total_price": totalOrderPrice,
+        "address_lat": 32.1,
+        "address_lng":34.2
     }
 
-    if "status" in request.data.keys():
-        order["status"] = request.data["status"]
 
     # happens when a restaurant adds an order
+    if "status" in request.data.keys():
+        order["status"] = request.data["status"]
     if "process_date_time" in request.data.keys():
         order["process_date_time"] = request.data["process_date_time"]
     if "timing_date_time" in request.data.keys():
@@ -263,8 +278,8 @@ def order_add(request):
         print("New order not valid")
         return Response(orderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    print(request.data["dishes_in_order"])
     # create multiple dishes in order
+    
     for dishInOrder in request.data["dishes_in_order"]:
         newDishInOrder = dishInOrder.copy()
         newDishInOrder["order"] = order
@@ -275,7 +290,8 @@ def order_add(request):
             print("Dish in order saved")
         else:
             print("Dish in order not valid")
-            print(dishInOrderSerializer.errors)
             return Response(dishInOrderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
+
+
     return Response(orderSerializer.data, status=status.HTTP_201_CREATED)
