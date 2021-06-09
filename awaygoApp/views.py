@@ -49,9 +49,11 @@ def logoutUser(request):
     logout(request)
     return redirect('loginPage')
 
-
+############
 # REST API's
+############
 
+# used by restaurant staff to see details and update: menu_open, delivery_cost 
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET', 'PUT'])
@@ -73,6 +75,7 @@ def my_restaurant(request):
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# used by restaurant staff for auto customer fill by phone
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
@@ -81,6 +84,7 @@ def customers_list(request):
     serializer = CustomerSerializer(customers, many=True)
     return Response(serializer.data)
 
+# used by restaurant for all the orders
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
@@ -89,6 +93,7 @@ def orders_list(request):
     serializer = DetailedOrderSerializer(orders, many=True)
     return Response(serializer.data)
 
+# used by restaurant for dishes list
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['GET'])
@@ -98,35 +103,22 @@ def dishes_list(request):
     serializer = DishSerializer(dishes, many=True)
     return Response(serializer.data)
 
-@login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['restaurant'])
-@api_view(['PUT'])
-def dish_details(request, pk):
-    try:
-        dish = Dish.objects.get(pk=pk)
-    except Dish.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'PUT':
-        serializer = DishSerializer(dish, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+# used by restaurant and clients to see a full detailed menu
 @api_view(['GET'])
 def foodCategories_list(request, restaurant_pk):
     foodCategories = FoodCategory.objects.filter(restaurant=Restaurant.objects.get(id=restaurant_pk))
     serializer = FoodCategorySerializer(foodCategories, many=True)
     return Response(serializer.data)
 
+# used for clients to see in restaurant_menu/?id=<id>
+# calls restaurant/<int:restaurant_pk>/
 @api_view(['GET'])
 def restaurant_details(request, restaurant_pk):
     restaurant = Restaurant.objects.get(id=restaurant_pk)
     serializer = RestaurantSerializer(restaurant)
     return Response(serializer.data)
 
-
+# used for restaurant staff to update status and timing
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['PUT'])
@@ -144,6 +136,7 @@ def order_detail(request, order_pk):
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# used for staff to update all dishes visibility in once (no serializer)
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['restaurant'])
 @api_view(['PUT'])
@@ -167,7 +160,7 @@ def dishes_visibility(request):
 
     return Response(request.data, status=status.HTTP_202_ACCEPTED)
 
-
+# used by staff or client to create an order
 @api_view(['POST'])
 def order_add(request):
 
@@ -223,6 +216,8 @@ def order_add(request):
         customer["street"] = request.data["street"]
         customer["number"] = request.data["number"]
         customer["apartment"] = request.data["apartment"]
+        customer["address_lat"] = 32.1
+        customer["address_lng"] = 34.2
 
         customerSerializer = CustomerSerializer(data=customer)
         if customerSerializer.is_valid():
@@ -258,9 +253,8 @@ def order_add(request):
         "apartment": request.data["apartment"],
         "total_price": totalOrderPrice,
         "address_lat": 32.1,
-        "address_lng":34.2
+        "address_lng": 34.2,
     }
-
 
     # happens when a restaurant adds an order
     if "status" in request.data.keys():
