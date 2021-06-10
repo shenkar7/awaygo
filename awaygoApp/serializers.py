@@ -6,8 +6,8 @@ from .models import *
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'freetext', 'background_img', 'menu_open', 'delivery_cost']
-        read_only_fields = ['background_img']
+        fields = ['id', 'name', 'freetext', 'background_img', 'menu_open', 'delivery_cost', 'lat', 'lng']
+        read_only_fields = ['background_img', 'lat', 'lng']
 
 # used in "customers_list" view in: /restaurant
 # used in "order_add" view (POST only) in: /restaurant and /restaurant_menu?id=<id>
@@ -86,4 +86,4 @@ class DetailedOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'restaurant', 'creation_date_time', 'process_date_time', 'timing_date_time', 'ready_date_time', 'sent_date_time', 'delivered_date_time', 'canceled_date_time','status', 'address_lat', 'address_lng', 'total_price','customer', 'city', 'street', 'number', 'apartment', 'remark', 'dishesinorder']
+        fields = ['id', 'restaurant', 'creation_date_time', 'process_date_time', 'timing_date_time', 'ready_date_time', 'sent_date_time', 'delivered_date_time', 'canceled_date_time','status', 'address_lat', 'address_lng', 'delivery_distance', 'total_price','customer', 'city', 'street', 'number', 'apartment', 'remark', 'dishesinorder']

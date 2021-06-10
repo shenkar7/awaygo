@@ -2,6 +2,8 @@ import './CustomerInfo.css';
 import React, {useContext, useState} from 'react';
 import OrderContext from '../../OrderContext';
 import Spinner from '../../components/Spinner/Spinner';
+import {getCookie} from '../../assets/functions';
+import {getDistanceFromLatLonInKm} from '../../assets/functions';
 import axios from 'axios';
 
 const CustomerInfo = props => {
@@ -41,11 +43,66 @@ const CustomerInfo = props => {
     const [invalidMessage, setInvalidMessage] = useState(null);
 
     const allValid = () => {
-        for (let key in validation) {
-            if (!validation[key])
-                return false;
-        }
-        return true;
+        return new Promise((resolve, reject) => {
+            for (let key in validation) {
+                if (!validation[key]){
+                    setInvalidMessage("* נא לתקן פרטים המסומנים באדום");
+                    reject();
+                    return;
+                }
+            }
+
+            // check if address is valid by google
+            setStatus("loading");
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                params: {
+                    key: 'AIzaSyCSu346YacrnBiQiyxIVFE95pblfGn_a00',
+                    address: order.city + " " + order.street + " " + order.number
+                }
+            })
+            .then(res => {
+                console.log("SUCCESS getting google maps api")
+                setStatus(null);
+
+                if (res.data.status !== "OK") {
+                    console.log("incorrect address");
+                    setInvalidMessage("* כתובת לא תקינה. נא לשנות כתובת");
+                    reject();
+                    return;
+                }
+                else if ('partial_match' in res.data.results[0]){
+                    console.log("partial_match address");
+                    setInvalidMessage("* כתובת לא תקינה. נא לשנות כתובת");
+                    reject();
+                    return;
+                }
+                else {
+                    const customerLat = res.data.results[0].geometry.location.lat;
+                    const customerLng = res.data.results[0].geometry.location.lng;
+                    const deliveryDistance = getDistanceFromLatLonInKm(props.restaurantLat, props.restaurantLng, customerLat, customerLng);
+                    if(deliveryDistance > 60){
+                        console.log("too far address");
+                        setInvalidMessage("* זוהתה כתובת רחוקה מדי. נא לשנות כתובת");
+                        reject();
+                        return;
+                    }
+                    else {
+                        console.log("valid address by google");
+                        resolve({
+                            customerLat: customerLat,
+                            customerLng: customerLng,
+                            deliveryDistance: deliveryDistance
+                        });
+                    }
+                }            
+            })
+            .catch(err => {
+                console.log("ERROR getting google maps api");
+                console.log(err.message);
+                setStatus("error")
+                reject();
+            })
+        })
     }
 
     const onChangeHandler = (event, fieldName) => {
@@ -118,33 +175,35 @@ const CustomerInfo = props => {
         return order;
     }
 
-    const getCookie = name => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
     const csrftoken = getCookie('csrftoken');
+    const originURL = window.location.origin;
 
-    let originURL = window.location.origin;
-    //originURL = "http://127.0.0.1:8000"; // Only for local run
-
-    const submitHandler = event => {
-        event.preventDefault();
+    const submitHandler = async event => {
         
-        if (allValid()){
+        event.preventDefault();
+        console.log("starting submitHandler");
+
+        let valid;
+        const newOrder = {...order};
+        try{
+            const geoData = await allValid();
+            console.log(geoData);
+            newOrder.address_lat = geoData.customerLat;
+            newOrder.address_lng = geoData.customerLng;
+            newOrder.delivery_distance = geoData.deliveryDistance;
+            valid = true;
+            console.log("try");
+        }
+        catch (value){
+            valid = false;
+            console.log("catch");
+        }
+
+        console.log("valid: " + valid);
+        console.log(newOrder);
+        if (valid){
             setStatus("loading");
-            const orderWithIds = transformOrderToIds(order);
+            const orderWithIds = transformOrderToIds(newOrder);
             axios.post(originURL + '/order_add', orderWithIds,
                 {
                     headers: {'X-CSRFTOKEN': csrftoken,},
@@ -160,12 +219,10 @@ const CustomerInfo = props => {
                 setStatus("error");
             })
         }
-        else{
-            setSubmitValidation(validation);
-            setInvalidMessage(
-                <div className="invalidMessage">* נא לתקן פרטים המסומנים באדום</div>
-            );
-        }
+        else
+            setSubmitValidation(validation);  
+    
+        console.log("submitHandler is done");
     }
 
     let content = null;
@@ -177,7 +234,6 @@ const CustomerInfo = props => {
                 </div>
                 <div className="form-window">
                     <form onSubmit={submitHandler}>
-
                         <h3>פרטי המזמין</h3>
                         <div className="details-section">
                             <div className="input-couple">
@@ -287,7 +343,9 @@ const CustomerInfo = props => {
                         <div className="submit-section">
                             <button type="submit">בצע הזמנה</button>
                         </div>
-                        {invalidMessage}
+                        <div className="invalidMessage">
+                            {invalidMessage}     
+                        </div>
                     </form>
                 </div>
             </React.Fragment>

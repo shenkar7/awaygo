@@ -32,6 +32,9 @@ const Layout = () => {
             email: ""
         },
         remark: "",
+        address_lat: "",
+        address_lng: "",
+        delivery_distance: "",
         dishes_in_order: []
     });
 
@@ -89,7 +92,7 @@ const Layout = () => {
         if(page.page === "menu")
             main = <Menu foodCategories={foodCategories} submitHandler={() => setPage({page: "customer-info", info: null})}/>;
         else if (page.page === "customer-info")
-            main = <CustomerInfo back={() => setPage({page: "menu", info: null})} setPage={setPage}/>
+            main = <CustomerInfo back={() => setPage({page: "menu", info: null})} setPage={setPage} restaurantLat={restaurant.lat} restaurantLng={restaurant.lng}/>
         else if (page.page === "success")
             main = (
                 <div className="success">

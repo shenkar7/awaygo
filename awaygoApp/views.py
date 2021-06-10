@@ -252,8 +252,9 @@ def order_add(request):
         "apartment": request.data["apartment"],
         "apartment": request.data["apartment"],
         "total_price": totalOrderPrice,
-        "address_lat": 32.1,
-        "address_lng": 34.2,
+        "address_lat": request.data["address_lat"],
+        "address_lng": request.data["address_lng"],
+        "delivery_distance": request.data["delivery_distance"],
     }
 
     # happens when a restaurant adds an order
@@ -263,6 +264,8 @@ def order_add(request):
         order["process_date_time"] = request.data["process_date_time"]
     if "timing_date_time" in request.data.keys():
         order["timing_date_time"] = request.data["timing_date_time"]
+
+    print(order)
 
     orderSerializer = OrderSerializer(data=order)
     if orderSerializer.is_valid():
