@@ -184,7 +184,7 @@ const Orders = props => {
 
         //  delivered orders for history
         
-        const addOrder = <AddOrder customersList={customersList} restaurantId={restaurant.id} successClose={() => setAddOrderWindow(false)}/>
+        const addOrder = <AddOrder customersList={customersList} restaurant={restaurant} successClose={() => setAddOrderWindow(false)}/>
 
         const viewOrder = <ViewOrder order={viewOrderWindow} orderUpdateHandler={orderUpdateHandler} modalClose={setViewOrderWindow}/>
 

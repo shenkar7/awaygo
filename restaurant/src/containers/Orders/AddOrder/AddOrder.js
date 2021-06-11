@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './AddOrder.css';
 import axios from 'axios';
-import {getCookie} from '../../../assets/functions';
+import {getCookie, getDistanceFromLatLonInKm} from '../../../assets/functions';
 import OrderDetails from './OrderDetails/OrderDetails';
 import Menu from './Menu/Menu';
 import Cart from './Cart/Cart';
@@ -14,7 +14,7 @@ const AddOrder = props => {
     const [status, setStatus] = useState(null);
 
     const [order, setOrder] = useState({
-        restaurant: props.restaurantId,
+        restaurant: props.restaurant.id,
         city: "",
         street: "",
         number: "",
@@ -62,47 +62,116 @@ const AddOrder = props => {
     const [invalid, setInvalid] = useState(false);
     
     const allValid = () => {
-        for (let key in validation) {
-            if (!validation[key])
-                return false;
-        }
-        return true;
+        return new Promise((resolve, reject) => {
+            for (let key in validation) {
+                if (!validation[key]){
+                    console.log('INVALID incorrect field');
+                    if (key === "nonEmptyCart")
+                        setInvalid("תזמן הזמנה (עגלה ריקה) *");
+                    else
+                        setInvalid("תזמן הזמנה (נתונים חסרים) *");
+                    reject();
+                    return;
+                }
+            }
+            // check if address is valid by google
+            setStatus("loading");
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                params: {
+                    key: process.env.REACT_APP_GOOGLE_API_KEY,
+                    address: order.city + " " + order.street + " " + order.number
+                }
+            })
+            .then(res => {
+                console.log("SUCCESS getting google maps api")
+                setStatus(null);
+
+                if (res.data.status !== "OK") {
+                    console.log("INVALID incorrect address");
+                    setInvalid("תזמן הזמנה (כתובת לא תקינה) *");
+                    reject();
+                    return;
+                }
+                else if ('partial_match' in res.data.results[0]){
+                    console.log("INVALID partial_match address");
+                    setInvalid("תזמן הזמנה (כתובת לא תקינה) *");
+                    reject();
+                    return;
+                }
+                else {
+                    const customerLat = res.data.results[0].geometry.location.lat;
+                    const customerLng = res.data.results[0].geometry.location.lng;
+                    const deliveryDistance = getDistanceFromLatLonInKm(props.restaurant.lat, props.restaurant.lng, customerLat, customerLng);
+                    if(deliveryDistance > 60){
+                        console.log("INVALID too far address");
+                        setInvalid("תזמן הזמנה (כתובת רחוקה מדי) *");
+                        reject();
+                        return;
+                    }
+                    else {
+                        console.log("VALID address by google");
+                        resolve({
+                            customerLat: customerLat,
+                            customerLng: customerLng,
+                            deliveryDistance: deliveryDistance
+                        });
+                    }
+                }            
+            })
+            .catch(err => {
+                console.log("ERROR getting google maps api");
+                console.log(err.message);
+                setStatus("error")
+                reject();
+            })
+        })
     }
 
-    const createNewOrderWithIds = () => {        
+    const createNewOrderWithIds = oldOrder => {        
         const newOrder = {
-            ...order,
-            dishes_in_order: [...order.dishes_in_order]
+            ...oldOrder,
+            dishes_in_order: [...oldOrder.dishes_in_order]
         };
 
-        for(let i = 0; i < order.dishes_in_order.length; i++){
+        for(let i = 0; i < oldOrder.dishes_in_order.length; i++){
             newOrder.dishes_in_order[i] = {
-                ...order.dishes_in_order[i],
-                dish: order.dishes_in_order[i].dish.id,
-                extras: [...order.dishes_in_order[i].extras],
+                ...oldOrder.dishes_in_order[i],
+                dish: oldOrder.dishes_in_order[i].dish.id,
+                extras: [...oldOrder.dishes_in_order[i].extras],
             }
-            for(let j=0; j < order.dishes_in_order[i].extras.length; j++) {
-                newOrder.dishes_in_order[i].extras[j] = order.dishes_in_order[i].extras[j].id;
+            for(let j=0; j < oldOrder.dishes_in_order[i].extras.length; j++) {
+                newOrder.dishes_in_order[i].extras[j] = oldOrder.dishes_in_order[i].extras[j].id;
             }
         }
         
         return(newOrder);
     }
 
-    const submitHandler = (timing) => {
-        if (allValid()){
+    const submitHandler = async timing => {
+        let valid;
+        const newOrder = {...order};
+        try{
+            const geoData = await allValid();
+            newOrder.address_lat = geoData.customerLat;
+            newOrder.address_lng = geoData.customerLng;
+            newOrder.delivery_distance = geoData.deliveryDistance;
+            valid = true;
+        }
+        catch (value){
+            valid = false;
+        }
+        if (valid){
             setStatus('loading');
-
-            const newOrder = createNewOrderWithIds();
-            newOrder.status = "process";
-            newOrder.process_date_time = new Date(Date.now());
-            newOrder.timing_date_time = new Date(Date.now() + timing * 60 * 1000);
+            const orderWithIds = createNewOrderWithIds(newOrder);
+            orderWithIds.status = "process";
+            orderWithIds.process_date_time = new Date(Date.now());
+            orderWithIds.timing_date_time = new Date(Date.now() + timing * 60 * 1000);
 
             const originURL = window.location.origin;
             const csrftoken = getCookie('csrftoken');
 
             axios.post(originURL + '/order_add',
-                newOrder,
+                orderWithIds,
                 {
                     headers: {'X-CSRFTOKEN': csrftoken,},
                 },
@@ -118,17 +187,14 @@ const AddOrder = props => {
                 setStatus("error");
             })
         }
-        else {
+        else 
             setSubmitValidation(validation);
-            setInvalid(true);
-        }
     }
 
     if (order.dishes_in_order.length === 0 && validation.nonEmptyCart){
         const newValidation = validation;
         newValidation.nonEmptyCart = false;
         setValidation(newValidation);
-        setInvalid(true);
     }
     else if (order.dishes_in_order.length > 0 && !validation.nonEmptyCart){
         const newValidation = validation;

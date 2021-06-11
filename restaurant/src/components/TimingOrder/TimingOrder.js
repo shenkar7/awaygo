@@ -64,7 +64,7 @@ const TimingOrder = props => {
             </div>
             <div className="time-order" onClick={() => props.timingButtonHandler(timing)}>
                 {props.invalid ?
-                <h1>תזמן הזמנה (נתונים חסרים / עגלה ריקה)</h1>
+                <h1>{props.invalid}</h1>
                 : <h1>תזמן הזמנה</h1>
                 }
             </div>

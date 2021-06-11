@@ -2,8 +2,7 @@ import './CustomerInfo.css';
 import React, {useContext, useState} from 'react';
 import OrderContext from '../../OrderContext';
 import Spinner from '../../components/Spinner/Spinner';
-import {getCookie} from '../../assets/functions';
-import {getDistanceFromLatLonInKm} from '../../assets/functions';
+import {getCookie, getDistanceFromLatLonInKm} from '../../assets/functions';
 import axios from 'axios';
 
 const CustomerInfo = props => {
@@ -56,7 +55,7 @@ const CustomerInfo = props => {
             setStatus("loading");
             axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
                 params: {
-                    key: 'AIzaSyCSu346YacrnBiQiyxIVFE95pblfGn_a00',
+                    key: process.env.REACT_APP_GOOGLE_API_KEY,
                     address: order.city + " " + order.street + " " + order.number
                 }
             })
@@ -65,13 +64,13 @@ const CustomerInfo = props => {
                 setStatus(null);
 
                 if (res.data.status !== "OK") {
-                    console.log("incorrect address");
+                    console.log("INVALID incorrect address");
                     setInvalidMessage("* כתובת לא תקינה. נא לשנות כתובת");
                     reject();
                     return;
                 }
                 else if ('partial_match' in res.data.results[0]){
-                    console.log("partial_match address");
+                    console.log("INVALID partial_match address");
                     setInvalidMessage("* כתובת לא תקינה. נא לשנות כתובת");
                     reject();
                     return;
@@ -81,13 +80,13 @@ const CustomerInfo = props => {
                     const customerLng = res.data.results[0].geometry.location.lng;
                     const deliveryDistance = getDistanceFromLatLonInKm(props.restaurantLat, props.restaurantLng, customerLat, customerLng);
                     if(deliveryDistance > 60){
-                        console.log("too far address");
+                        console.log("INVALID too far address");
                         setInvalidMessage("* זוהתה כתובת רחוקה מדי. נא לשנות כתובת");
                         reject();
                         return;
                     }
                     else {
-                        console.log("valid address by google");
+                        console.log("VALID address by google");
                         resolve({
                             customerLat: customerLat,
                             customerLng: customerLng,
@@ -181,26 +180,18 @@ const CustomerInfo = props => {
     const submitHandler = async event => {
         
         event.preventDefault();
-        console.log("starting submitHandler");
-
         let valid;
         const newOrder = {...order};
         try{
             const geoData = await allValid();
-            console.log(geoData);
             newOrder.address_lat = geoData.customerLat;
             newOrder.address_lng = geoData.customerLng;
             newOrder.delivery_distance = geoData.deliveryDistance;
             valid = true;
-            console.log("try");
         }
         catch (value){
             valid = false;
-            console.log("catch");
         }
-
-        console.log("valid: " + valid);
-        console.log(newOrder);
         if (valid){
             setStatus("loading");
             const orderWithIds = transformOrderToIds(newOrder);
@@ -221,8 +212,6 @@ const CustomerInfo = props => {
         }
         else
             setSubmitValidation(validation);  
-    
-        console.log("submitHandler is done");
     }
 
     let content = null;
