@@ -1,2 +1,3 @@
-# env file with django secret key
 /awaygo/.env
+staticfiles
+db.sqlite3
