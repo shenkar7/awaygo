@@ -35,6 +35,10 @@
   align-items: center;
 }
 
+.cart .title h3{
+  margin: 13px 0;
+}
+
 .cart .title i {
   display: none;
 }

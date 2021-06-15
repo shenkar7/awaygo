@@ -3,6 +3,10 @@
     justify-content: space-between;
 }
 
+.name-and-price h4,  .name-and-price p {
+    margin: 12px 0;
+}
+
 .delete {
     text-align: left;
 }

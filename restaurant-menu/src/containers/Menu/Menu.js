@@ -16,10 +16,12 @@ const Menu = props => {
                 if (dish.visible){
                     return (
                         <div className="dish" key={dish.name} onClick={() => dishClickHandler(dish)}>
-                            <div>
-                                <h4>{dish.name}</h4>
-                                <p>{dish.description}</p>
-                                <p class="price">₪{dish.price}</p>
+                            <div className="info">
+                                <div className="text">
+                                    <h4>{dish.name}</h4>
+                                    <p>{dish.description}</p>
+                                </div>
+                            <p class="price">₪{dish.price}</p>
                             </div>
                             {dish.img ?
                                 <div className="dish-image">

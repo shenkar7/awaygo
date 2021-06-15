@@ -61,6 +61,11 @@ header {
     top: -250px; */
 }
 
+.layout .made-by {
+    text-align: center;
+    margin: 15px 0 5px 0;
+}
+
 @media screen and (max-width: 1320px){
     .main {
       width: 1170px;

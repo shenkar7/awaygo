@@ -4,6 +4,10 @@
     min-width: 500px;
 }
 
+.dish-details h4 {
+    margin: 10px 0;
+}
+
 .dish-details .name {
     display: flex;
     justify-content: space-between;
@@ -15,7 +19,7 @@
 }
 
 .dish-details .name h3{
-    margin-top: 0;
+    margin: 0;
 }
 
 .dish-details .price-and-counter {
@@ -52,6 +56,7 @@
     cursor: pointer;
     font-size: 18px;
     padding: 12px;
+    font-weight: bold;
 }
 
 .add-dish-button:hover {
