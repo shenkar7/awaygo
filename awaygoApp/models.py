@@ -59,26 +59,6 @@ class Dish(models.Model):
     def __str__(self):
         return self.name + ' - ' + self.category.restaurant.name
 
-class DeliveryBoy(models.Model):
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True) # validators should be a list
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    vehicle = models.CharField(
-        max_length=10,
-        choices=[('bicycle', 'Bicycle'), ('motorcycle', 'Motorcycle')],
-        default='bicycle'
-    )
-    current_status = models.CharField(
-        max_length=10,
-        choices=[('free', 'Free'), ('delivering', 'Delivering')],
-        default='free'
-    )
-    current_lat = models.DecimalField(max_digits=9, decimal_places=7, blank=True, null=True)
-    current_lng = models.DecimalField(max_digits=9, decimal_places=7, blank=True, null=True)
-
 class Order(models.Model):
     creation_date_time = models.DateTimeField(auto_now_add=True)
     process_date_time = models.DateTimeField(blank=True, null=True)
@@ -103,7 +83,6 @@ class Order(models.Model):
     address_lng = models.DecimalField(max_digits=9, decimal_places=7)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     delivery_distance = models.DecimalField(max_digits=5, decimal_places=3)
-    deliveryboy = models.ForeignKey(DeliveryBoy, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ['timing_date_time']

@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['awaygo.herokuapp.com', 'www.awaygo.herokuapp.com', 'awaygotest.herokuapp.com', 'www.awaygotest.herokuapp.com','127.0.0.1', 'localhost:8000']
+ALLOWED_HOSTS = ['awaygo.herokuapp.com', 'www.awaygo.herokuapp.com', 'awaygotest.herokuapp.com', 'www.awaygotest.herokuapp.com','127.0.0.1', 'localhost:3000']
 
 # Application definition
 

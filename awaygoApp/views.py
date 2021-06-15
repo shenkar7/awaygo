@@ -12,7 +12,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .serializers import *
-
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from datetime import datetime
@@ -196,7 +195,7 @@ def order_add(request):
 
     # fixing IntegerField not accepting empty string
     if request.data["number"] == "":
-            request.data["number"] = None
+        request.data["number"] = None
     if request.data["apartment"] == "":
         request.data["apartment"] = None
 
@@ -236,9 +235,6 @@ def order_add(request):
             dishTotalPrice += Extra.objects.get(id=extra).price
 
         totalOrderPrice += dishTotalPrice * int(dishInOrder["quantity"])
-
-
-    print(totalOrderPrice)
 
     # create order with the customer
 
@@ -288,7 +284,5 @@ def order_add(request):
         else:
             print("Dish in order not valid")
             return Response(dishInOrderSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-
 
     return Response(orderSerializer.data, status=status.HTTP_201_CREATED)

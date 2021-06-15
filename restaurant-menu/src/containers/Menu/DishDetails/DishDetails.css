@@ -1,0 +1,75 @@
+.dish-details {
+    background-color: white;
+    padding: 20px;
+    min-width: 500px;
+}
+
+.dish-details .name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dish-details .name i{
+    display: none;
+}
+
+.dish-details .name h3{
+    margin-top: 0;
+}
+
+.dish-details .price-and-counter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-inputs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-inputs .extra-input {
+     width: 33%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin-bottom: 10px;
+}
+
+.category-inputs .extra-input input, .category-inputs .extra-input label {
+    cursor: pointer;
+}
+
+.dish-details .dish-remark input{
+    width: 100%;
+}
+
+.add-dish-button {
+    display: block;
+    width: 100%;
+    background-color: orange;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 12px;
+}
+
+.add-dish-button:hover {
+    background-color: rgb(218, 141, 0);
+}
+
+@media only screen and (max-width: 700px) {
+
+    .dish-details {
+        min-width: 0;
+    }
+
+    .dish-details .name i {
+        display: inline;
+    }
+
+    .dish-details h4 {
+        margin: 5px 0;
+    }
+
+}
