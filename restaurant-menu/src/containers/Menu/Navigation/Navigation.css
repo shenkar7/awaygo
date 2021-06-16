@@ -1,9 +1,0 @@
-.navigation {
-    display: flex;
-    overflow-x: auto;
-    background-color: white;
-}
-
-::-webkit-scrollbar {
-    height: 10px;
-  }
