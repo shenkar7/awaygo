@@ -120,23 +120,21 @@ const Layout = () => {
     let delivery_cost;
     if (restaurant)
         delivery_cost = parseFloat(restaurant.delivery_cost);
-
-    let madeBy = null;
-    if (status !== "loading" && status !== "error")
-        madeBy =(
-            <div className="made-by">
-                    created by <a href="https://github.com/shenkar7">Yariv Shenkar</a>
-            </div>
-        )
-
+    
     return (
         <OrderContext.Provider value={[order, setOrder, delivery_cost]}>
             <div className="layout">
                 <header>
                     <img src={logoImg} alt="logo"/>
                 </header>
-                {content}
-                {madeBy}
+                <div className="sub-layout">
+                    <div>
+                        {content}
+                    </div>
+                    <div className="made-by">
+                        created by <a href="https://github.com/shenkar7">Yariv Shenkar</a>
+                    </div>
+                </div>
             </div>
         </OrderContext.Provider>
     );

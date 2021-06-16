@@ -14,6 +14,7 @@
 
 .order-details .input-couple {
     display: flex;
+    flex-direction: row-reverse;
 }
 
 .order-details .order-input {

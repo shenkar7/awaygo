@@ -1,3 +1,7 @@
+html, body, #root, .App, .layout {
+    height: 100%;
+}
+
 body {
     background-color: #e4e4e4;
     margin: 0;
@@ -5,6 +9,12 @@ body {
 
 main {
     padding: 30px;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .spinner{
@@ -65,4 +75,9 @@ main {
 
 .link:hover {
     color: gray;
+}
+
+.layout .made-by {
+    text-align: center;
+    margin: 15px 0 5px 0;
 }

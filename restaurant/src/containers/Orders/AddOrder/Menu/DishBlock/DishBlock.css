@@ -9,7 +9,7 @@
 }
 
 .dish-extras {
-    background-color: white;
+    background-color: #fafafa;
     padding-bottom: 20px;
 }
 
@@ -21,6 +21,10 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
+}
+
+.dish-extras .description-and-counter .counter{
+    flex-direction: row-reverse;
 }
 
 .dish-extras .category-inputs {
@@ -38,7 +42,7 @@
 }
 
 .dish-extras .dish-description input{
-    width: 80%;
+    width: 95%;
     direction: rtl;
 }
 

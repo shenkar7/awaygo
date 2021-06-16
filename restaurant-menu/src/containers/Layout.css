@@ -1,3 +1,12 @@
+.layout {
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+html, body, #root, .App, .layout, .sub-layout {
+    height: 100%;
+}
+
 header {
     position: fixed;
     text-align: center;
@@ -12,17 +21,17 @@ header {
     width: 100%;
 }
 
-.layout > .loading {
+.layout .loading {
     margin-top: 50px;
     display: flex;
     justify-content: center;
 }
 
-.layout > .loading .loader:before {
+.layout .loading .loader:before {
     background: #777;
 }
 
-.layout > .error {
+.layout .error {
     margin-top: 80px;
     text-align: center;
 }
@@ -37,7 +46,7 @@ header {
     direction: rtl;
     width: 1300px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .success {
@@ -51,7 +60,6 @@ header {
     overflow: hidden;
     position: relative;
     height: 250px;
-    top: 40px;
 }
 
 .restaurant-back-img img {
@@ -61,7 +69,14 @@ header {
     top: -250px; */
 }
 
-.layout .made-by {
+.sub-layout {
+    display: flex;
+    /* padding-top: 50px; */
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.layout .sub-layout .made-by {
     text-align: center;
     margin: 15px 0 5px 0;
 }

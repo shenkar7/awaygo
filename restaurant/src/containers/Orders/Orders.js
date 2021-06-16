@@ -67,7 +67,7 @@ const Orders = props => {
                     .then((res) => {
                         console.log("SUCCESS getting foodcategories");
                         setFoodCategories(res.data);
-                        setLoading(false);
+                        setLoading(false); 
                     })
                     .catch((err) => {
                         console.log("ERROR getting foodcategories");
@@ -235,7 +235,7 @@ const Orders = props => {
                             <div className="columns-titles">
                                 <h3>הזמנות שבוטלו</h3>
                                 <div className="title-seperator"></div>
-                                <h3>הזמנות שהתבצעו</h3>
+                                <h3>הזמנות שבוצעו</h3>
                             </div>
                             <div className="orders-columns">
                                 <div className="orders-column">
@@ -283,7 +283,12 @@ const Orders = props => {
 
     return (
         <OrdersPageContext.Provider value={{customersList: customersList, foodCategories: foodCategories, delivery_cost: delivery_cost}}>
-            {content}
+            <div className="layout">
+                {content}
+                <div className="made-by">
+                    created by <a href="https://github.com/shenkar7">Yariv Shenkar</a>
+                </div>
+            </div>
         </OrdersPageContext.Provider>
     );
 }
