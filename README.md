@@ -4,12 +4,14 @@ Awaygo is an innovative venture in the field of food delivery based on independe
 
 Built with Django as backend, ReactJS as frontend, getting and setting data with Django REST framework and stored in a Heroku PostgreSQL database.
 
-[Live Demo of the Restaurant Clients Page](https://awaygotest.herokuapp.com/restaurant_menu/?id=1 "Live Demo")
+[Live Demo - Restaurant Clients Page](https://awaygotest.herokuapp.com/restaurant_menu/?id=1 "Live Demo")
 
-[Live Demo of the Restaurant Management Page for Staff](https://awaygotest.herokuapp.com/restaurant "Live Demo")
+[Live Demo - Restaurant Management Page for Staff](https://awaygotest.herokuapp.com/restaurant "Live Demo")
 
 Username:
 `test-restaurant`
+
+
 Password:
 `t1e2s3t4`
 
