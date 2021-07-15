@@ -1,0 +1,19 @@
+.menu-button {
+    padding: 15px 0 15px 60px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.menu-button a {
+    text-decoration: none;
+    color: black;
+}
+
+.button-text.selected {
+    color: #00b3e3;;
+}
+
+.with-hover:hover {
+    color: #00b3e3;;
+}
+

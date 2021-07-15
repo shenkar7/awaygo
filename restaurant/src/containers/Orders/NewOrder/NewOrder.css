@@ -1,0 +1,74 @@
+.new-order-window {
+    background-color: #eeeeee;
+    padding: 10px;
+    color: #626262;
+    min-width: 700px;
+}
+
+.error {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-order-window .order-number {
+    color: rgb(51, 51, 51);
+    text-align: left;
+    font-size: 25px;
+}
+
+.new-order-window .inside-window {
+    background-color: white;
+    border: 1px solid #00b3e3;
+    padding: 13px;
+}
+
+.new-order-window .inside-window .name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.new-order-window .inside-window .address {
+    font-size: 13px;
+}
+
+.new-order-window .inside-window .food-section, .new-order-window .inside-window .remark-section {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.new-order-window .inside-window .food-section .fa-hamburger,
+.new-order-window .inside-window .remark-section .fa-exclamation-triangle {
+    color: black;
+    font-size: 18px;
+    margin-left: 12px;
+}
+
+.new-order-window .inside-window .food-section .food {
+    font-size: 10px;
+}
+
+.new-order-window .inside-window .remark-section .remark {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.new-order-window .cancel-button-section {
+    text-align: center;
+}
+
+.new-order-window .cancel-button-section div {
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
+    width: 80px;
+    margin-top: 5px;
+}
+
+.new-order-window .cancel-button-section div:hover {
+    background-color: rgb(218, 0, 0);
+}

@@ -1,0 +1,83 @@
+html, body, #root, .App, .layout {
+    height: 100%;
+}
+
+body {
+    background-color: #e4e4e4;
+    margin: 0;
+}
+
+main {
+    padding: 30px;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.spinner{
+    font-size: 6px;
+    display: flex;
+    justify-content: center;
+}
+
+.all-orders-window {
+    padding: 10px;
+    text-align: right;
+}
+
+.columns-titles {
+    display: flex;
+    justify-content: space-between;
+}
+
+.columns-titles {
+    display: flex;
+    color: rgb(68, 68, 68);
+}
+
+.columns-titles h3 {
+    font-weight: normal;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.columns-titles .title-seperator {
+    width: 45px
+}
+
+.orders-columns {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.orders-column {
+    width: 100%;
+}
+
+.column-seperation {
+    width: 6px;
+    min-width: 6px;
+    background-color: #cecece;
+    margin: 0 15px 0 15px;
+}
+
+.error-message {
+    text-align: center;
+}
+
+.link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.link:hover {
+    color: gray;
+}
+
+.layout .made-by {
+    text-align: center;
+    margin: 15px 0 5px 0;
+}

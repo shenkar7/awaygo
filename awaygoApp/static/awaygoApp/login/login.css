@@ -1,0 +1,45 @@
+html {
+    height: 100%;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+}
+
+.login-window {
+    background-color: #f5f5f5;
+    width:fit-content;
+    padding: 25px 40px 25px 40px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.login-window input[type="text"], .login-window input[type="password"]{
+    margin-top: 10px;
+}
+
+.login-window .submit input {
+    border: none;
+    padding: 10px 20px 10px 20px;
+    cursor: pointer;
+    background-color: rgb(214, 214, 214);
+    color:  #4b4b4b;
+    margin-top: 20px;
+}
+
+.login-window .submit input:hover {
+    background-color: rgb(201, 201, 201);
+}
+
+.login-window .incorrect-message {
+    color: red;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+.login-window .incorrect-message p{
+    margin-bottom: 0px;
+}
